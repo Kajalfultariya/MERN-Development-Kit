@@ -1,0 +1,4 @@
+input::placeholder {
+  color: #ffffff; /* Change to your desired color */
+  opacity: 1;    /* Required for Firefox to show full color */
+}
