@@ -79,7 +79,7 @@ const LandingPage = ({ C, setPage, setPayForm, CURRICULUM }) => {
                             <button className="btn-glow" onClick={() => setPage("payment")} style={{
                                 padding: "14px 32px", background: "linear-gradient(135deg,#6366F1,#8B5CF6)", border: "none",
                                 borderRadius: 12, color: "#fff", fontSize: 15, fontWeight: 700, cursor: "pointer"
-                            }}>Start for ₹999 →</button>
+                            }}>Start for ₹201 →</button>
                             <button onClick={() => setPage("course")}
                                 style={{
                                     padding: "14px 26px", border: `2px solid ${C.border}`, background: "transparent",
@@ -177,13 +177,13 @@ const LandingPage = ({ C, setPage, setPayForm, CURRICULUM }) => {
                     <div className="pricing-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 20, maxWidth: 780, margin: "0 auto" }}>
                         {[
                             {
-                                name: "Basic", price: "₹499", color: "#06B6D4",
-                                features: ["Full 6-week curriculum", "35+ video lessons", "Code labs & files", "Community Discord"],
+                                name: "Basic", price: "₹201", color: "#06B6D4",
+                                features: ["Full 6-week curriculum", "35+  lessons", "Code labs & files", "Community Discord"],
                                 cta: "Enroll — Basic", plan: "basic"
                             },
                             {
-                                name: "Pro ⭐", price: "₹999", color: "#6366F1",
-                                features: ["Everything in Basic", "3 guided projects", "Module quizzes", "Certificate of Completion",
+                                name: "Pro ⭐", price: "501", color: "#6366F1",
+                                features: ["Everything in Basic", "3 guided projects", "Module quizzes", 
                                     "Lifetime updates", "Priority Q&A support"],
                                 cta: "Enroll — Pro", plan: "pro", popular: true
                             },

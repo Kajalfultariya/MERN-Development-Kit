@@ -3252,9 +3252,9 @@ client ==> index.css
                 nextLesson: "l6_1"
         },
         l6_1: {
-                title: "JSX, Components & Props",
+                title: "MongoDB Atlas Production Setup",
                 description: " ",
-                objectives: ["Pipeline Stages", "The aggregate Method", "Non-Destructive"],
+                objectives: ["MongoDB Atlas", "Cluster Configuration", "Non-Destructive"],
                 code: `// MongoDB
                 `,
                 notes: "Take your time with each lesson. The most important thing is understanding, not speed.",
