@@ -1,12 +1,10 @@
-import { useState, useEffect, useRef } from "react";
-import Payment from "./Payment";
+import { useState, useRef, useEffect } from "react";
 import MainContent from "./MainContent";
-import LandingPage from "./LandingPage";
 import Sidebar from "./Sidebar";
 import MainHeader from "./MainHeader";
-import axios from "axios"
 import { LESSON_CONTENT } from "./lesson";
-
+import { useNavigate } from "react-router-dom";
+import axios from "axios"
 /* ═══════════════════════════════════════════════
    SYNTAX HIGHLIGHT
 ═══════════════════════════════════════════════ */
@@ -25,37 +23,41 @@ function hl(code) {
 /* ═══════════════════════════════════════════════
    MAIN APP
 ═══════════════════════════════════════════════ */
-export default function MernCourse() {
-    const [page, setPage] = useState("landing"); // landing | payment | course
-    const [payForm, setPayForm] = useState({ name: "", email: "", card: "", expiry: "", cvv: "", plan: "pro" });
-    const [paying, setPaying] = useState(false);
-    const [payDone, setPayDone] = useState(false);
+export default function MernCourse({ C, CURRICULUM, setCurriculum, projectData, setProjectData }) {
+
+
+    const navigate = useNavigate()
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const [activeLesson, setActiveLesson] = useState("l1_1");
     const [activeModule, setActiveModule] = useState("m1");
     const [expandedModules, setExpandedModules] = useState({ m1: false, m2: false, m3: false, m4: false, m5: false, m6: false });
-    const [curriculum, setCurriculum] = useState([]);
+
     const [noteText, setNoteText] = useState("");
     const [noteSaved, setNoteSaved] = useState(false);
     const [copied, setCopied] = useState(false);
     const [searchQ, setSearchQ] = useState("");
     const contentRef = useRef(null);
+    const [customer, setCustomer] = useState([])
 
-    const fetchCuriculumData = async () => {
-        await axios.get("http://localhost:8000/api/fetch").then((response) => {
-            //setNextId(response.data.length)
-            // setBooks(response.data)
-            setCurriculum(response.data)
-            console.log("all data", response.data)
-        }).catch(error => { console.log("errr", error) })
+    const fetchCustomer = async () => {
+        console.log("consle", localStorage.getItem("Id"))
+        localStorage.getItem("Id") &&
+            await axios.get(`http://localhost:8000/api/fetchoneCustomer/${localStorage.getItem("Id")}`).then((response) => {
+                setCustomer(response.data)
+                console.log("all data mern course", response.data)
+            }).catch(error => { console.log("errr", error) })
     }
+    useEffect(() => {
+        fetchCustomer()
+    }, [])
 
     useEffect(() => {
-        fetchCuriculumData()
+        if (!localStorage.getItem("Id"))
+            navigate('/')
     }, [])
 
     const currentLesson = (() => {
-        for (const mod of curriculum) {
+        for (const mod of CURRICULUM) {
             const l = mod.lessons.find(l => l.id === activeLesson);
             if (l) return { ...l, module: mod };
         }
@@ -64,8 +66,8 @@ export default function MernCourse() {
 
     const lessonContent = LESSON_CONTENT[activeLesson] || LESSON_CONTENT.default;
 
-    const totalLessons = curriculum.reduce((a, m) => a + m.lessons.length, 0);
-    const doneLessons = curriculum.reduce((a, m) => a + m.lessons.filter(l => l.done).length, 0);
+    const totalLessons = CURRICULUM.reduce((a, m) => a + m.lessons.length, 0);
+    const doneLessons = CURRICULUM.reduce((a, m) => a + m.lessons.filter(l => l.done).length, 0);
     const progress = Math.round((doneLessons / totalLessons) * 100);
 
     const markDone = (lessonId) => {
@@ -85,11 +87,7 @@ export default function MernCourse() {
 
     const toggleModule = (id) => setExpandedModules(p => ({ ...p, [id]: !p[id] }));
 
-    const handlePay = (e) => {
-        e.preventDefault();
-        setPaying(true);
-        setTimeout(() => { setPayDone(true); setPaying(false); }, 2000);
-    };
+
 
     const copyCode = () => {
         navigator.clipboard.writeText(lessonContent.code).catch(() => { });
@@ -102,51 +100,16 @@ export default function MernCourse() {
         setTimeout(() => setNoteSaved(false), 2000);
     };
 
-    const allLessons = curriculum.flatMap(m => m.lessons.map(l => ({ ...l, moduleTitle: m.title, moduleId: m.id })));
+    const allLessons = CURRICULUM.flatMap(m => m.lessons.map(l => ({ ...l, moduleTitle: m.title, moduleId: m.id })));
     const searchResults =
         searchQ.length > 1 ? allLessons.filter(l => l.title.toLowerCase().includes(searchQ.toLowerCase())) : [];
 
-    /* ── STYLES ── */
-    const C = {
-        bg: "#F1F5F9", surface: "#94A3B8", card: "#F1F5F9",
-        border: "#1E293B ", accent: "#6366F1", accentHover: "#4F46E5",
-        green: "#10B981", amber: "#F59E0B", red: "#EF4444",
-        text: "#0B0F1A", sub: "#111827", muted: "#475569",
-        sidebar: "#F1F5F9",
-    };
 
-    /* ═══════════════════════════════════════════════
-       LANDING PAGE
-    ═══════════════════════════════════════════════ */
-    if (page === "landing") return (
-        <LandingPage
-            C={C}
-            setPayForm={setPayForm}
-            setPage={setPage}
-            CURRICULUM={curriculum}
-        />
-    );
-
-    /* ═══════════════════════════════════════════════
-       PAYMENT PAGE
-    ═══════════════════════════════════════════════ */
-    if (page === "payment") return (
-        <Payment
-            handlePay={handlePay}
-            payForm={payForm}
-            payDone={payDone}
-            paying={paying}
-            setPayForm={setPayForm}
-            setPage={setPage}
-            C={C}
-        />
-    );
-
-    /* ═══════════════════════════════════════════════
-       COURSE DASHBOARD
-    ═══════════════════════════════════════════════ */
     return (
-        <div style={{ fontFamily: "'Outfit',sans-serif", background: C.bg, color: C.text, height: "100vh", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+        <div style={{
+            fontFamily: "'Outfit',sans-serif", background: C.bg, color: C.text,
+            height: "100vh", display: "flex", flexDirection: "column", overflow: "hidden"
+        }}>
             <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap');
         *{box-sizing:border-box;margin:0;padding:0}
@@ -172,10 +135,12 @@ export default function MernCourse() {
                 setSearchQ={setSearchQ}
                 setSidebarOpen={setSidebarOpen}
                 sidebarOpen={sidebarOpen}
-                setPage={setPage}
                 currentLesson={currentLesson}
                 searchQ={searchQ}
                 searchResults={searchResults}
+                customer={customer}
+                projectData={projectData}
+                setProjectData={setProjectData}
             />
 
 
@@ -194,7 +159,7 @@ export default function MernCourse() {
                 <Sidebar
                     C={C}
                     activeLesson={activeLesson}
-                    curriculum={curriculum}
+                    curriculum={CURRICULUM}
                     progress={progress}
                     toggleModule={toggleModule}
                     expandedModules={expandedModules}
@@ -203,6 +168,9 @@ export default function MernCourse() {
                     doneLessons={doneLessons}
                     totalLessons={totalLessons}
                     activeModule={activeModule}
+                    customer={customer}
+                    projectData={projectData}
+                    setProjectData={setProjectData}
                 />
 
 
@@ -223,7 +191,9 @@ export default function MernCourse() {
                     markDone={markDone}
                     hl={hl}
                     saveNote={saveNote}
-                   // toggleModule={toggleModule}
+                    projectData={projectData}
+                    setProjectData={setProjectData}
+                // toggleModule={toggleModule}
                 />
             </div>
         </div>

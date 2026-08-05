@@ -1,8 +1,11 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom';
 
-const MainHeader = ({ C, progress, goToLesson, setSearchQ,
-    setSidebarOpen, sidebarOpen, setPage, currentLesson, searchQ, searchResults
+const MainHeader = ({ C, progress, goToLesson, setSearchQ, projectData, setProjectData,
+    setSidebarOpen, sidebarOpen, currentLesson, searchQ, searchResults, customer
 }) => {
+
+    const navigate = useNavigate()
     return (
         <header style={{
             background: "linear-gradient(135deg,#6366F1,#8B5CF6)",
@@ -33,7 +36,8 @@ const MainHeader = ({ C, progress, goToLesson, setSearchQ,
             <div style={{
                 display: "flex", alignItems: "center",
                 gap: 8, marginRight: 16, cursor: "pointer"
-            }} onClick={() => setPage("landing")}>
+            }}
+            >
                 <div style={{
                     width: 30, height: 30,
                     borderRadius: 7, background: "#ffffff",
@@ -116,7 +120,49 @@ const MainHeader = ({ C, progress, goToLesson, setSearchQ,
                 borderRadius: "50%", background: "#000000",
                 display: "flex", alignItems: "center", justifyContent: "center",
                 fontSize: 14, fontWeight: 700, flexShrink: 0, color: "#ffffff"
-            }}>P</div>
+            }}>{customer.name && customer.name.charAt(0).toUpperCase()}
+            </div>
+            <div onClick={() => {
+                localStorage.clear();
+                setProjectData("");
+                navigate("/");
+            }}
+                onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-3px) scale(1.05)";
+                    e.currentTarget.style.boxShadow =
+                        "0 12px 25px rgba(239,68,68,.45)";
+                }}
+                onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0) scale(1)";
+                    e.currentTarget.style.boxShadow =
+                        "0 6px 15px rgba(239,68,68,.25)";
+                }}
+                onMouseDown={(e) => {
+                    e.currentTarget.style.transform = "scale(.95)";
+                }}
+                onMouseUp={(e) => {
+                    e.currentTarget.style.transform = "translateY(-3px) scale(1.05)";
+                }}
+                style={{
+                    width: 100,
+                    height: 32,
+                    borderRadius: "14px",
+                    background: "linear-gradient(135deg,#ef4444,#dc2626,#991b1b)",
+                    color: "#fff",
+                    fontWeight: "600",
+                    fontSize: "15px",
+                    letterSpacing: "1px",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "10px",
+                    boxShadow: "0 6px 15px rgba(239,68,68,.25)",
+                    transition: "all .3s ease",
+                    userSelect: "none",
+                }}
+            >
+                Signout</div>
         </header>
 
     )

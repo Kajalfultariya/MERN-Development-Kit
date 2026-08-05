@@ -1596,7 +1596,7 @@ Clear           arr.splice(0)                   Removes everything
         $group    Groups documents by a key and performs calculations (sum, average, etc.).               GROUP BY
         $project  Selects, renames, or creates new fields; reshapes the document.                         SELECT
         $sort     Orders documents based on specified fields (1 for asc, -1 for desc).                    ORDER BY
-        $limit    Passes only the first \(n\) documents to the next stage.                                LIMIT
+        $limit    Passes only the first (/n) documents to the next stage.                                LIMIT
         $unwind   Deconstructs an array field from input documents to output a document for each element. N/A
         $lookup   Performs a "left outer join" to combine data from another collection.                   JOIN
 
@@ -2016,7 +2016,7 @@ Clear           arr.splice(0)                   Removes everything
                         const [name, setName] = useState('');
                         const handleSubmit = (e) => {
                                 e.preventDefault(); // Prevents page reload
-                                alert(\Submitted Name: \${name});
+                                alert(Submitted Name: \${name});
                         };
                         return (
                                 < form onSubmit={handleSubmit}>
@@ -3253,50 +3253,222 @@ client ==> index.css
         },
         l6_1: {
                 title: "MongoDB Atlas Production Setup",
-                description: " ",
-                objectives: ["MongoDB Atlas", "Cluster Configuration", "Non-Destructive"],
-                code: `// MongoDB
-                `,
-                notes: "Take your time with each lesson. The most important thing is understanding, not speed.",
+                objectives: ["Prepare your App", "MongoDB Atlas & Cluster Configuration", "Push to GitHub"],
+                code: `// Deploy & Go Live
+        1 . Prepare your App
+                Create .env with MONGO_URI, JWT_SECRET, NODE_ENV=production
+                Add .env to .gitignore (critical!)
+                Fix CORS to use process.env.CLIENT_URL
+
+        2 . MongoDB Atlas & Cluster Configuration
+                Sign up at mongodb.com/atlas
+                Create M0 Free cluster → Create DB user → Whitelist IP 0.0.0.0/0
+                Copy your connection string → paste into .env
+                
+                
+                🍃 Create MongoDB Atlas Account & Cluster
+                        ✓ Go to mongodb.com/atlas                       → Sign up free
+                        ✓ Create Organization                           → New Project
+                        ✓ Click "Build a Database"                      → Choose M0 Free tier
+                        ✓ Choose provider: AWS / GCP (select region closest to you)
+                        ✓ Click Create Cluster
+                            (takes 1-3 min)
+                
+                👤 Create Database User
+                        Go to Security → Database Access → Add New Database User
+                        ✓ Authentication: Password
+                        ✓ Username: e.g. myapp_user
+                        ✓ Password: Use "Autogenerate" — copy it!
+                        ✓ Role:Atlas admin or readWriteAnyDatabase
+                        ✓ Click Add User
+                         
+                🌍 Whitelist IP Address
+                        Go to Security → Network Access → Add IP Address
+                        ℹ️  For production with Render/Railway: 
+                                 Click "Allow Access from Anywhere" → 0.0.0.0/0.
+                                 You can restrict this later.
+                
+                🔗 Get Connection String
+                    Go to Clusters → Connect → Connect your application
+                    MongoDB URI format
+                        mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/<dbname>?retryWrites=true&w=majority
+                        (Replace <username>, <password>, and <dbname> with your values. Put this in your .env as MONGO_URI.)
+
+        3 . Push to GitHub
+                        git init && git add . && git commit -m "deploy"
+                        git remote add origin https://github.com/you/repo.git
+                        git push -u origin main
+                
+                        Project Structure
+                                my-mern-app/
+                                ├── backend/
+                                │   ├── models/
+                                │   ├── routes/
+                                │   ├── middleware/
+                                │   ├── server.js
+                                │   ├── package.json
+                                │   └── .env           ← never push!
+                                ├── frontend/
+                                │   ├── src/
+                                │   ├── package.json
+                                │   └── .env.local     ← never push!
+                                └── README.md
+                        `,
+
                 nextLesson: "l6_2"
         },
         l6_2: {
-                title: "JSX, Components & Props",
-                description: " ",
-                objectives: ["Pipeline Stages", "The aggregate Method", "Non-Destructive"],
-                code: `// MongoDB
+                title: "Environment Variables & Secrets",
+                code: `// Deploy & Go Live
+
+                backend/.env
+                        PORT=5000
+                        MONGO_URI=mongodb+srv://<user>:<password>@cluster0.xxxxx.mongodb.net/mydb?retryWrites=true&w=majority
+                        JWT_SECRET=your_super_secret_key_here
+                        NODE_ENV=production
+                        CLIENT_URL=https://yourapp.vercel.app
+
+                        Add .env to your .gitignore immediately. Never push secrets to GitHub.
                 `,
-                notes: "Take your time with each lesson. The most important thing is understanding, not speed.",
                 nextLesson: "l6_3"
         },
 
         l6_3: {
-                title: "JSX, Components & Props",
-                description: " ",
-                objectives: ["Pipeline Stages", "The aggregate Method", "Non-Destructive"],
-                code: `// MongoDB
+                title: "Deploy Backend to Render.com",
+                code: `// Deploy & Go Live
+
+                ✓ Go to render.com              → Sign up with GitHub
+                ✓ Click New                     → Web Service
+                ✓ Connect your GitHub repo
+                ✓ Set Root Directory : backend
+                ✓ Build Command : npm install
+                ✓ Start Command : npm start
+                ✓ Instance Type: Free
+                🔑 Add Environment Variables on Render
+                        In your Render service → Environment tab → Add each variable:
+
+                        Render Environment Variables
+                        MONGO_URI      =  mongodb+srv://...
+                        JWT_SECRET     =  your_secret_key
+                        NODE_ENV       =  production
+                        PORT           =  5000
+                        CLIENT_URL     =  https://yourapp.vercel.app
+                                 ✅  After deploy, your API will be live at https://your-app-name.onrender.com
+
+                                OR
+
+                New Web Service → Connect repo → Root: backend
+                Build: npm install | Start: npm start
+                Add all .env variables in the Environment tab
+                Your API: https://your-app.onrender.com
                 `,
-                notes: "Take your time with each lesson. The most important thing is understanding, not speed.",
                 nextLesson: "l6_4"
         },
 
         l6_4: {
-                title: "JSX, Components & Props",
-                description: " ",
-                objectives: ["Pipeline Stages", "The aggregate Method", "Non-Destructive"],
-                code: `// MongoDB
+                title: "Deploy Frontend to Vercel",
+                code: `// Deploy & Go Live
+
+                frontend/.env
+                        REACT_APP_API_URL=https://your-app-name.onrender.com/api
+                axiosConfig.js or api.js
+                        const API = axios.create({
+                                baseURL: process.env.REACT_APP_API_URL,
+                                withCredentials: true
+                        });
+                
+                🌐 Deploy to Vercel
+                        ✓Go to vercel.com              → Sign up with GitHub
+                        ✓Click New Project             → Import GitHub repo
+                        ✓Set Root Directory : frontend
+                        ✓Framework preset: Create React App
+                        ✓Add environment variable: REACT_APP_API_URL
+                        ✓Click Deploy
+
+                🔁 React Router Fix (SPA routing)
+                
+                Create vercel.json in your frontend root to fix page refresh issues:
+                frontend/vercel.json
+                        {
+                                "rewrites": [
+                                { "source": "/(.*)", "destination": "/" }
+                                ]
+                        }
+
+                                OR
+
+                Import repo → Root: frontend
+                Add REACT_APP_API_URL=https://your-app.onrender.com/api
+                Add vercel.json for React Router fix
+                Your app: https://your-project.vercel.app
+                
+                
                 `,
-                notes: "Take your time with each lesson. The most important thing is understanding, not speed.",
                 nextLesson: "l6_5"
         },
 
         l6_5: {
-                title: "JSX, Components & Props",
-                description: " ",
-                objectives: ["Pipeline Stages", "The aggregate Method", "Non-Destructive"],
-                code: `// MongoDB
-                `,
-                notes: "Take your time with each lesson. The most important thing is understanding, not speed.",
+                title: "Custom Domain & HTTPS",
+                 code: `// MongoDB
+                🌍 Add Custom Domain on Vercel
+                        ✓ Buy domain: GoDaddy / Namecheap / Google Domains
+                        ✓ Vercel → Project Settings    → Domains
+                        ✓ Add your domain: www.myapp.com
+                        ✓ Copy the CNAME record Vercel gives you
+                        ✓ Go to your domain registrar → DNS settings
+                        ✓ Add CNAME record pointing to Vercel
+                        ✓ Wait 5-30 min for DNS propagation
+                        ℹ️ Vercel automatically provisions a free SSL/HTTPS certificate via Let's Encrypt. 
+                            No extra setup needed!
+
+                                OR
+
+               Add domain in Vercel → Copy CNAME → Add in your domain registrar DNS
+                
+               `,
+               
+                nextLesson: "l6_6"
+        },
+        
+        l6_6: {
+                title: "Final Capstone: Full Deploy",
+                 code: `// MongoDB
+
+                 ✅ Pre-Launch Checklist
+                        ✓ 🔗 API health check returns 200 OK
+                        ✓ 🍃 MongoDB Atlas shows connections in Metrics
+                        ✓ 🔐 Login / Register flow works end-to-end
+                        ✓ 🌐 CORS not blocking requests (check browser console)
+                        ✓ 📱 App is responsive on mobile
+                        ✓ 🔒 HTTPS is active on both frontend and backend
+                        ✓ 🚫 No .env secrets in GitHub repo
+                        ✓ 📊 Create MongoDB Atlas alert for connection failures
+                        ✓ 🔄 Auto-deploy on push to main is enabled
+                        ✓ 📝 README updated with live URL
+
+                ⚡ Common Issues & Fixes
+                        CORS Error
+                        Fix: Double-check CLIENT_URL env var on Render matches your Vercel URL exactly
+                            (no trailing slash).
+                
+                        MongoDB Connection Timeout
+                        Fix: In Atlas Network Access, ensure 0.0.0.0/0 is whitelisted.
+                             Also check your URI has the correct password.    
+
+                        Render Free Tier Spins Down
+                        Free services sleep after 15 min inactivity. 
+                        First request takes ~30s. Use UptimeRobot (free) to ping every 5 min.
+
+                        Environment Variables Not Found
+                        React needs REACT_APP_ prefix. Node.js just uses the name.
+                        Re-deploy after adding new env vars.
+
+                        
+                 Go Live Checklist
+                        Test API health, login flow, CORS, HTTPS, mobile view
+                        Use UptimeRobot (free) to prevent Render free tier sleep
+               `,
+               
                 nextLesson: "l1_1"
         }
 };

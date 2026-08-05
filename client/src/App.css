@@ -1,4 +1,159 @@
 input::placeholder {
-  color: #ffffff; /* Change to your desired color */
-  opacity: 1;    /* Required for Firefox to show full color */
+  color: #ffffff;
+  /* Change to your desired color */
+  opacity: 1;
+  /* Required for Firefox to show full color */
+}
+
+/* Overlay to dim the background */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Modal box styling */
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: left;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.setting-btn {
+  padding: 12px 20px;
+  background: var(--bg-light);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.setting-btn:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.setting-btn.delete-btn {
+  border-color: var(--danger-color);
+  color: var(--danger-color);
+}
+
+.setting-btn.delete-btn:hover {
+  background: var(--danger-color);
+  color: purple;
+}
+
+.input-groupmodel {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.form-input {
+  width: 100%;
+  background: rgba(71, 85, 105, 0.3);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 8px;
+  padding: 12px 24px 12px 10px;
+  color: rgb(12, 12, 12);
+  font-size: 0.875rem;
+  transition: var(--transition);
+}
+
+/* Target the arrow characters and change their color to black */
+.slick-prev:before,
+.slick-next:before {
+  color: black ;
+  font-size: 35px;
+  
+}
+
+
+/* Optional: Ensure the arrows have a high z-index so they don't hide behind images */
+.slick-prev,
+.slick-next {
+  z-index: 10;
+}
+
+
+
+
+
+.slider-container {
+  width: 98%;
+  margin: 80px auto;
+  position: relative;
+
+}
+
+/* Move dots to top */
+.slick-dots {
+  top: -50px;
+  bottom: auto;
+
+}
+
+/* Move previous arrow to top-left */
+.slick-prev {
+  top: 40px;
+  left: -60px;
+  z-index: 10;
+}
+
+/* Move next arrow to top-right */
+.slick-next {
+  top: 40px;
+  right: -40px;
+  z-index: 10;
+
+}
+
+.form-input::placeholder {
+  color: #64748b;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  opacity: 0.7;
+  transition: var(--transition);
+}
+
+.password-toggle:hover {
+  opacity: 1;
+}
+
+.form-input:focus {
+  outline: none;
+  background: rgba(71, 85, 105, 0.5);
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.input-groupmodel input {
+  padding: 0.8rem;
+  margin-top: 0.4rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
 }

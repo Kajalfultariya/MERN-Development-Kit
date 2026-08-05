@@ -1,6 +1,15 @@
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import LoginForm from "./LoginForm";
+import { useNavigate } from 'react-router-dom';
 
-const LandingPage = ({ C, setPage, setPayForm, CURRICULUM }) => {
+const LandingPage = ({ C, setPayForm, CURRICULUM }) => {
+
+    const navigate = useNavigate();
+    const [open, setOpen] = useState(false);
+    const [openPreview, setOpenPreview] = useState(false);
+
+    const [showPassword, setShowPassword] = useState(false);
+
     return (
         <div style={{ fontFamily: "'Outfit',sans-serif", background: C.bg, color: C.text, minHeight: "100vh" }}>
             <style>{`
@@ -18,7 +27,7 @@ const LandingPage = ({ C, setPage, setPayForm, CURRICULUM }) => {
         .btn-glow{transition:all .2s}
         @media(max-width:768px){.land-hero{grid-template-columns:1fr!important;text-align:center}.land-hero-btns{justify-content:center!important}.feat-grid{grid-template-columns:1fr 1fr!important}.pricing-grid{grid-template-columns:1fr!important;max-width:380px!important;margin:0 auto!important}}
       `}</style>
-
+            <SlideModal isOpen={openPreview} onClose={() => setOpenPreview(false)} CURRICULUM={CURRICULUM} />
             {/* Nav */}
             <nav style={{
                 position: "sticky", top: 0, zIndex: 100,
@@ -41,16 +50,25 @@ const LandingPage = ({ C, setPage, setPayForm, CURRICULUM }) => {
                             <span style={{ color: "#ffffff", paddingLeft: "3px", fontSize: "15px" }}> Course</span></span>
                     </div>
                     <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-                        <span style={{ fontSize: 13, color: "#ffffff", cursor: "pointer" }} onClick={() => setPage("payment")}>Sign In</span>
-                        <button onClick={() => setPage("payment")} className="btn-glow" style={{
+                        <span style={{ fontSize: 13, color: "#ffffff", cursor: "pointer" }}
+                            onClick={() => {
+                                setOpen(true)
+                            }}>Sign In</span>
+                        <button onClick={() => navigate('/payment')} className="btn-glow" style={{
                             padding: "9px 22px",
                             background: "linear-gradient(135deg,#000000,grey)",
-                            border: "none", borderRadius: 10, color: "#fff", fontSize: 14, fontWeight: 700, cursor: "pointer"
+                            border: "none", borderRadius: 10, color: "#fff", fontSize: 14,
+                            fontWeight: 700, cursor: "pointer"
                         }}>Enroll Now →</button>
                     </div>
                 </div>
             </nav>
-
+            {open &&
+                <LoginForm
+                    open={open}
+                    setOpen={setOpen}
+                />
+            }
             {/* Hero */}
             <section style={{ padding: "90px 24px 80px", maxWidth: 1200, margin: "0 auto" }}>
                 <div className="land-hero" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
@@ -67,7 +85,7 @@ const LandingPage = ({ C, setPage, setPayForm, CURRICULUM }) => {
                             <span style={{
                                 fontSize: 12, color: "#818CF8",
                                 fontFamily: "'Fira Code',monospace", fontWeight: 600
-                            }}>Full-Stack Course · 6 Weeks · Certificate</span>
+                            }}>Full-Stack Course · 6 Weeks </span>
                         </div>
                         <h1 style={{ fontSize: "clamp(36px,5.5vw,64px)", fontWeight: 900, lineHeight: 1.05, letterSpacing: "-.04em", marginBottom: 20 }}>
                             Master <span style={{ background: "linear-gradient(90deg,#6366F1,#A78BFA)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>MERN Stack</span> Development
@@ -76,11 +94,12 @@ const LandingPage = ({ C, setPage, setPayForm, CURRICULUM }) => {
                             The most complete MERN Stack course for students — 35+ lessons, real projects, code-along labs, quizzes, and a certificate of completion.
                         </p>
                         <div className="land-hero-btns" style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 40 }}>
-                            <button className="btn-glow" onClick={() => setPage("payment")} style={{
-                                padding: "14px 32px", background: "linear-gradient(135deg,#6366F1,#8B5CF6)", border: "none",
-                                borderRadius: 12, color: "#fff", fontSize: 15, fontWeight: 700, cursor: "pointer"
-                            }}>Start for ₹201 →</button>
-                            <button onClick={() => setPage("course")}
+                            <button className="btn-glow" onClick={() => navigate('/payment')}
+                                style={{
+                                    padding: "14px 32px", background: "linear-gradient(135deg,#6366F1,#8B5CF6)", border: "none",
+                                    borderRadius: 12, color: "#fff", fontSize: 15, fontWeight: 700, cursor: "pointer"
+                                }}>Start for pro →</button>
+                            <button onClick={() => setOpenPreview(true)}
                                 style={{
                                     padding: "14px 26px", border: `2px solid ${C.border}`, background: "transparent",
                                     borderRadius: 12, color: C.sub, fontSize: 14, cursor: "pointer", fontWeight: 500
@@ -147,16 +166,22 @@ const LandingPage = ({ C, setPage, setPayForm, CURRICULUM }) => {
             {/* Features */}
             <section style={{ padding: "60px 24px", background: "rgba(255,255,255,.02)" }}>
                 <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-                    <h2 style={{ fontSize: "clamp(24px,3.5vw,38px)", fontWeight: 800, textAlign: "center", marginBottom: 12, letterSpacing: "-.03em" }}>Everything you need to go full-stack</h2>
-                    <p style={{ textAlign: "center", color: C.sub, marginBottom: 48, fontSize: 16 }}>Structured learning + real code + real projects = real skills</p>
+                    <h2 style={{
+                        fontSize: "clamp(24px,3.5vw,38px)",
+                        fontWeight: 800, textAlign: "center", marginBottom: 12, letterSpacing: "-.03em"
+                    }}>
+                        Everything you need to go full-stack</h2>
+                    <p style={{ textAlign: "center", color: C.sub, marginBottom: 48, fontSize: 16 }}>
+                        Structured learning + real code + real projects = real skills</p>
                     <div className="feat-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 18 }}>
                         {[
-                            ["🎥", "35+ Video Lessons", "High-quality lessons with code-along exercises for every concept"],
+                            ["🎥", "35+  Lessons", "lessons with code-along exercises for every concept"],
                             ["💻", "Code Labs", "Every module has a full working code file — ready to copy, study and modify"],
                             ["🏗", "3 Real Projects", "Build a Task Manager, Auth System, and a full-stack deployed app"],
                             ["📋", "Module Quizzes", "Test your knowledge after each week with interactive quizzes"],
                             ["🚀", "Deploy Guide", "Step-by-step deployment to MongoDB Atlas, Railway & Vercel"],
-                            ["🏅", "Certificate", "Earn a shareable certificate to showcase on LinkedIn & GitHub"],
+                            ,
+
                         ].map(([icon, title, desc]) => (
                             <div key={title} className="hover-card"
                                 style={{ background: C.card, border: `2px solid ${C.border}`, borderRadius: 14, padding: "20px 22px" }}>
@@ -183,7 +208,7 @@ const LandingPage = ({ C, setPage, setPayForm, CURRICULUM }) => {
                             },
                             {
                                 name: "Pro ⭐", price: "501", color: "#6366F1",
-                                features: ["Everything in Basic", "3 guided projects", "Module quizzes", 
+                                features: ["Everything in Basic", "3 guided projects", "Module quizzes",
                                     "Lifetime updates", "Priority Q&A support"],
                                 cta: "Enroll — Pro", plan: "pro", popular: true
                             },
@@ -199,14 +224,24 @@ const LandingPage = ({ C, setPage, setPayForm, CURRICULUM }) => {
                                     position: "absolute", top: 16, right: 16, fontSize: 11, padding: "3px 10px",
                                     background: "rgba(99,102,241,.2)", border: "1px solid rgba(99,102,241,.4)",
                                     borderRadius: 20, color: "#818CF8", fontWeight: 700
-                                }}>MOST POPULAR</div>}
+                                }}>MOST POPULAR </div>}
                                 <div style={{ fontSize: 22, fontWeight: 800, color: p.color, marginBottom: 6 }}>{p.name}</div>
                                 <div style={{ fontSize: "clamp(28px,4vw,40px)", fontWeight: 900, marginBottom: 4, letterSpacing: "-.03em" }}>{p.price}</div>
                                 <div style={{ fontSize: 12, color: C.muted, marginBottom: 20 }}>one-time payment · lifetime access</div>
                                 <ul style={{ listStyle: "none", marginBottom: 24 }}>
                                     {p.features.map(f => <li key={f} style={{ display: "flex", gap: 8, padding: "6px 0", fontSize: 13, color: C.sub, borderBottom: `1px solid rgba(255,255,255,.04)` }}><span style={{ color: C.green }}>✓</span>{f}</li>)}
                                 </ul>
-                                <button className="btn-glow" onClick={() => { setPayForm(x => ({ ...x, plan: p.plan })); setPage("payment"); }} style={{ width: "100%", padding: "13px", background: p.popular ? "linear-gradient(135deg,#6366F1,#8B5CF6)" : `${p.color}22`, border: p.popular ? "none" : `1px solid ${p.color}50`, borderRadius: 11, color: p.popular ? "#fff" : p.color, fontSize: 14, fontWeight: 700, cursor: "pointer" }}>
+                                <button className="btn-glow"
+                                    onClick={() => {
+                                        setPayForm(x => ({ ...x, plan: p.plan }));
+                                        navigate('/payment');
+                                    }} style={{
+                                        width: "100%", padding: "13px", background: p.popular ?
+                                            "linear-gradient(135deg,#6366F1,#8B5CF6)" : `${p.color}22`,
+                                        border: p.popular ? "none" : `1px solid ${p.color}50`, 
+                                        borderRadius: 11, color: p.popular ? "#fff" : p.color,
+                                        fontSize: 14, fontWeight: 700, cursor: "pointer"
+                                    }}>
                                     {p.cta}
                                 </button>
                             </div>
@@ -218,10 +253,208 @@ const LandingPage = ({ C, setPage, setPayForm, CURRICULUM }) => {
             {/* Footer */}
             <footer style={{ borderTop: `1px solid ${C.border}`, padding: "36px 24px", textAlign: "center" }}>
                 <div style={{ fontSize: 12, color: C.muted, fontFamily: "'Fira Code',monospace" }}>
-                    © 2025 MERNCourse · Built for students · All rights reserved</div>
+                    © 2026 MERNCourse · All rights reserved</div>
             </footer>
         </div>
     )
 }
+
+
+
+function SlideModal({ isOpen, onClose, CURRICULUM }) {
+    const [current, setCurrent] = useState(0);
+    const [dir, setDir] = useState(null); // "left" | "right"
+    const [animKey, setAnimKey] = useState(0);
+
+    const total = CURRICULUM.length;
+    const slide = CURRICULUM[current];
+    console.log("curriculum", current)
+    // console.log("slides",slides[current])
+
+    const go = useCallback(
+        (delta) => {
+            const next = (current + delta + total) % total;
+            setDir(delta > 0 ? "right" : "left");
+            setAnimKey((k) => k + 1);
+            setCurrent(next);
+        },
+        [current, total]
+    );
+
+    useEffect(() => {
+        if (!isOpen) return;
+        const handler = (e) => {
+            if (e.key === "ArrowRight") go(1);
+            if (e.key === "ArrowLeft") go(-1);
+            if (e.key === "Escape") onClose();
+        };
+        window.addEventListener("keydown", handler);
+        return () => window.removeEventListener("keydown", handler);
+    }, [isOpen, go, onClose]);
+
+    if (!isOpen) return null;
+
+    return (
+        <div
+            onClick={onClose}
+            style={{
+                position: "fixed", inset: 0,
+                background: "rgba(0,0,0,0.5)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                zIndex: 1000, padding: "1rem",
+            }}
+        >
+            <div
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                    background: "#fff",
+                    borderRadius: 16,
+                    width: "100%", maxWidth: 560,
+                    overflow: "hidden",
+                    boxShadow: "0 20px 60px rgba(0,0,0,0.18)",
+                }}
+            >
+                {/* Header */}
+                <div
+                    style={{
+                        background: slide.color,
+                        padding: "1.75rem 1.75rem 1.25rem",
+                        position: "relative",
+                        transition: "background 0.35s",
+                    }}
+                >
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
+                        <span style={{
+                            fontSize: 11, fontWeight: 600, letterSpacing: "0.08em",
+                            textTransform: "uppercase", color: slide.color,
+                            background: "rgba(255,255,255,0.6)", borderRadius: 99,
+                            padding: "3px 12px",
+                        }}>Module <span>
+                                {current + 1}</span>
+                        </span>
+                        <button
+                            onClick={onClose}
+                            aria-label="Close"
+                            style={{
+                                background: "rgba(255,255,255,0.6)", border: "none",
+                                borderRadius: "50%", width: 30, height: 30,
+                                cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+                                fontSize: 16, color: slide.color, lineHeight: 1,
+                            }}
+                        >
+                            ✕
+                        </button>
+                    </div>
+
+                    <div
+                        key={animKey}
+                        style={{
+                            animation: `slideIn${dir === "right" ? "R" : "L"} 0.28s ease`,
+                        }}
+                    >
+                        <div style={{  marginBottom: 6 }}>
+                            <span style={{
+                               letterSpacing: "0.08em",fontSize: 36,
+                                textTransform: "uppercase",
+                                background: "rgba(255,255,255,0.6)", borderRadius: 99,
+                                padding: "3px 5px",
+                            }}>{slide.icon}
+                            </span> </div>
+                        <h2 style={{ fontSize: 22, fontWeight: 600, color: "#111", margin: 0 }}>
+                            {slide.title}
+                        </h2>
+                    </div>
+
+                    {/* Progress dots */}
+                    <div style={{ display: "flex", gap: 5, marginTop: 14 }}>
+                        {CURRICULUM.map((_, i) => (
+                            <button
+                                key={i}
+                                onClick={() => {
+                                    setDir(i > current ? "right" : "left");
+                                    setAnimKey(k => k + 1); setCurrent(i);
+                                }}
+                                aria-label={`Go to slide ${i + 1}`}
+                                style={{
+                                    width: i === current ? 20 : 7, height: 7,
+                                    borderRadius: 99, border: "none", cursor: "pointer",
+                                    background: i === current ? "white" : "rgba(0,0,0,0.15)",
+                                    transition: "all 0.25s", padding: 0,
+                                }}
+                            />
+                        ))}
+                    </div>
+                </div>
+
+                {/* Body */}
+                <div style={{ padding: "1.5rem 1.75rem" }}>
+                    <p style={{
+                        fontSize: 12, fontWeight: 600, color: "#aaa", textTransform: "uppercase",
+                        letterSpacing: "0.07em", marginBottom: 10
+                    }}>
+                        Topics covered
+                    </p>
+                    <ul style={{
+                        listStyle: "none", padding: 0, margin: "0 0 1.25rem", display: "flex",
+                        flexDirection: "column", gap: 8
+                    }}>
+                        {slide && slide.lessons.map((t, i) => (
+                            <li key={i} style={{
+                                display: "flex", alignItems: "center",
+                                gap: 10, fontSize: 14, color: "#333"
+                            }}>
+                                <span style={{
+                                    width: 22, height: 22, borderRadius: "50%",
+                                    background: slide.color, color: "white",
+                                    display: "flex", alignItems: "center", justifyContent: "center",
+                                    fontSize: 11, fontWeight: 700, flexShrink: 0,
+                                }}>
+                                    {i + 1}
+                                </span>
+                                {t.title}
+                            </li>
+                        ))}
+                    </ul>
+
+
+                    {/* Nav buttons */}
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                        <button
+                            onClick={() => go(-1)}
+                            style={{
+                                display: "flex", alignItems: "center", gap: 6,
+                                background: "transparent", border: "1px solid #ddd",
+                                borderRadius: 8, padding: "8px 16px",
+                                fontSize: 13, color: "#555", cursor: "pointer",
+                            }}
+                        >
+                            ← Previous
+                        </button>
+                        <span style={{ fontSize: 12, color: "#aaa" }}>
+                            {current + 1} / {total}
+                        </span>
+                        <button
+                            onClick={() => go(1)}
+                            style={{
+                                display: "flex", alignItems: "center", gap: 6,
+                                background: slide.color, border: "none",
+                                borderRadius: 8, padding: "8px 16px",
+                                fontSize: 13, color: "#fff", cursor: "pointer",
+                            }}
+                        >
+                            Next →
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <style>{`
+        @keyframes slideInR { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideInL { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: translateX(0); } }
+      `}</style>
+        </div>
+    );
+}
+
 
 export default LandingPage

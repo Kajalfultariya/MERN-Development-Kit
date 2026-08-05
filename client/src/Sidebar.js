@@ -1,6 +1,31 @@
 import React from "react";
 
-const Sidebar = ({ C, activeLesson, curriculum,
+const projectBtnStyle = (isActive) => ({
+    width: "100%",
+    padding: "14px 14px",
+    marginBottom: "12px",
+    border: "none",
+    borderRadius: "14px",
+    background: isActive
+        ? "linear-gradient(135deg,#F59E0B,#EF4444)"
+        : "linear-gradient(135deg,#4F46E5,#7C3AED)",
+    color: "#fff",
+    fontSize: "15px",
+    fontWeight: "600",
+    letterSpacing: ".5px",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "10px",
+    boxShadow: isActive
+        ? "0 10px 25px rgba(239,68,68,.45)"
+        : "0 8px 18px rgba(79,70,229,.35)",
+    transition: "all .3s ease",
+    transform: isActive ? "scale(1.03)" : "scale(1)",
+});
+
+const Sidebar = ({ C, activeLesson, curriculum, customer, projectData, setProjectData,
     progress, expandedModules, toggleModule, goToLesson,
     sidebarOpen, doneLessons, totalLessons, activeModule }) => {
     return (
@@ -10,29 +35,16 @@ const Sidebar = ({ C, activeLesson, curriculum,
             ...(sidebarOpen ? {} : { width: 0, overflow: "hidden" }),
         }}>
             {/* Sidebar header */}
-            <div style={{ padding: "16px 18px 12px", borderBottom: `2px solid ${C.border}`, flexShrink: 0, background: "#000000" }}>
+            <div style={{
+                padding: "16px 18px 12px", borderBottom: `2px solid ${C.border}`,
+                flexShrink: 0, background: "#000000"
+            }}>
                 <div style={{
                     fontSize: 12, fontWeight: 700,
                     textTransform: "uppercase",
-                    letterSpacing: ".08em", marginBottom: 10, color: "#ffffff"
+                    letterSpacing: ".08em", color: "#ffffff"
                 }}>Course Content  --  {totalLessons}</div>
-                {/*<div style={{
-                    height: 4, background: "#ffffff",
-                    borderRadius: 4, overflow: "hidden"
-                }}>
-                    <div style={{
-                        height: "100%", width: `${progress}%`,
-                        background: "linear-gradient(90deg,#6366F1,#A78BFA)",
-                        borderRadius: 4, transition: "width .5s"
-                    }} />
-                </div>
-                <div style={{
-                    display: "flex", justifyContent: "space-between",
-                    marginTop: 6, fontSize: 11, color: "#ffffff"
-                }}>
-                    <span>{doneLessons} of {totalLessons} complete</span>
-                    <span style={{ color: "#818CF8" }}>{progress}%</span>
-                </div>*/}
+
             </div>
 
             {/* Modules */}
@@ -46,13 +58,23 @@ const Sidebar = ({ C, activeLesson, curriculum,
                                 width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "10px 18px",
                                 background: activeModule === mod.id ? "rgba(99,102,241,.06)" : "transparent",
                                 border: "none", cursor: "pointer", textAlign: "left"
-                            }}> 
+                            }}>
                             <span style={{ fontSize: 16, flexShrink: 0 }}>{mod.icon}</span>
                             <div style={{ flex: 1, minWidth: 0 }}>
-                                <div style={{ fontSize: 11, color: mod.color, fontFamily: "'Fira Code',monospace", fontWeight: 600 }}>{mod.week}</div>
-                                <div style={{ fontSize: 13, fontWeight: 600, color: C.text, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{mod.title}</div>
+                                <div style={{
+                                    fontSize: 11, color: mod.color,
+                                    fontFamily: "'Fira Code',monospace", fontWeight: 600
+                                }}>{mod.week}</div>
+                                <div style={{
+                                    fontSize: 13, fontWeight: 600,
+                                    color: C.text, overflow: "hidden", textOverflow: "ellipsis",
+                                    whiteSpace: "nowrap"
+                                }}>{mod.title}</div>
                             </div>
-                            <span style={{ color: C.muted, fontSize: 14, transition: "transform .2s", transform: expandedModules[mod.id] ? "rotate(180deg)" : "none", flexShrink: 0 }}>⌄</span>
+                            <span style={{
+                                color: C.muted, fontSize: 14, transition: "transform .2s",
+                                transform: expandedModules[mod.id] ? "rotate(180deg)" : "none", flexShrink: 0
+                            }}>⌄</span>
                             {mod.locked && <span style={{ fontSize: 12, flexShrink: 0 }}>🔒</span>}
                         </button>
 
@@ -61,7 +83,11 @@ const Sidebar = ({ C, activeLesson, curriculum,
                             <div>
                                 {mod.lessons.map(lesson => (
                                     <div key={lesson.id} className="lesson-item"
-                                        onClick={() => !mod.locked && goToLesson(lesson.id, mod.id)}
+                                        onClick={() => {
+                                            !mod.locked && goToLesson(lesson.id, mod.id)
+                                            setProjectData("")
+                                        }
+                                        }
                                         style={{
                                             display: "flex", alignItems: "center", gap: 10, padding: "8px 18px 8px 42px",
                                             cursor: mod.locked ? "default" : "pointer",
@@ -88,24 +114,79 @@ const Sidebar = ({ C, activeLesson, curriculum,
                                                 overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
                                                 lineHeight: 1.4
                                             }}>{lesson.title}</div>
-                                            <div style={{ display: "flex", gap: 6, marginTop: 2 }}>
-                                                {/*<span style={{ fontSize: 10, color: C.muted }}>{lesson.duration}</span>
-                                                {lesson.type !== "video" &&
-                                                    <span style={{
-                                                        fontSize: 10, padding: "1px 5px",
-                                                        borderRadius: 3, background: lesson.type === "quiz" ?
-                                                            "rgba(251,191,36,.1)" : "rgba(99,102,241,.1)",
-                                                        color: lesson.type === "quiz" ? "#FCD34D" : "#A5B4FC"
-                                                    }}>{lesson.type}</span>}*/}
-                                            </div>
+
                                         </div>
                                     </div>
                                 ))}
                             </div>
                         )}
+
                     </div>
                 ))}
             </div>
+            {customer.amount && customer.amount === 501 &&
+                <div style={{
+                    padding: "16px 16px 2px 12px", borderBottom: `2px solid ${C.border}`,
+                    flexShrink: 0
+                }}>
+                    <div><button style={projectBtnStyle(projectData === "Project1")}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = "translateY(-3px)";
+                            e.currentTarget.style.boxShadow =
+                                "0 15px 30px rgba(79,70,229,.45)";
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.transform =
+                                projectData === "Project1"
+                                    ? "scale(1.03)"
+                                    : "scale(1)";
+                            e.currentTarget.style.boxShadow =
+                                projectData === "Project1"
+                                    ? "0 10px 25px rgba(239,68,68,.45)"
+                                    : "0 8px 18px rgba(79,70,229,.35)";
+                        }}
+                        onClick={() => setProjectData("Project1")}
+                    >Projects - 1</button>
+                    </div>
+                    <div><button style={projectBtnStyle(projectData === "Project2")}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = "translateY(-3px)";
+                            e.currentTarget.style.boxShadow =
+                                "0 15px 30px rgba(79,70,229,.45)";
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.transform =
+                                projectData === "Project1"
+                                    ? "scale(1.03)"
+                                    : "scale(1)";
+                            e.currentTarget.style.boxShadow =
+                                projectData === "Project1"
+                                    ? "0 10px 25px rgba(239,68,68,.45)"
+                                    : "0 8px 18px rgba(79,70,229,.35)";
+                        }}
+                        onClick={() => setProjectData("Project2")}
+                    >Projects - 2</button></div>
+                    <div><button style={projectBtnStyle(projectData === "Project3")}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = "translateY(-3px)";
+                            e.currentTarget.style.boxShadow =
+                                "0 15px 30px rgba(79,70,229,.45)";
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.transform =
+                                projectData === "Project1"
+                                    ? "scale(1.03)"
+                                    : "scale(1)";
+                            e.currentTarget.style.boxShadow =
+                                projectData === "Project1"
+                                    ? "0 10px 25px rgba(239,68,68,.45)"
+                                    : "0 8px 18px rgba(79,70,229,.35)";
+                        }}
+                        onClick={() => setProjectData("Project3")}
+                    >Projects - 3</button></div>
+
+                </div>
+            }
         </aside>
 
     )
