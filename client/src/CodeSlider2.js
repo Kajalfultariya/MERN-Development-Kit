@@ -43,9 +43,7 @@ router.post("/login", login);
 
 module.exports = router;`
   },
-  ,
-
-  {
+    {
     fileName: "server/routes/noteRoutes.js",
     code: `
 const express = require("express");

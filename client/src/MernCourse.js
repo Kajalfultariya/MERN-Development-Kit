@@ -54,7 +54,7 @@ export default function MernCourse({ C, CURRICULUM, setCurriculum, projectData, 
     useEffect(() => {
         if (!localStorage.getItem("Id"))
             navigate('/')
-    }, [])
+    }, [navigate])
 
     const currentLesson = (() => {
         for (const mod of CURRICULUM) {

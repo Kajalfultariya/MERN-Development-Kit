@@ -86,9 +86,7 @@ route.delete("/deleteBook/:id", deleteUserBook)
 export default route;
 `
   },
-  ,
-
-  {
+    {
     fileName: "server/model/borrowBookModel.js",
     code: `
 import mongoose from "mongoose";
@@ -2235,7 +2233,7 @@ const Login = () => {
         if (!email || !password) {
             setLoginError('Please fill in all fields');
         }
-        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        else if (!/^[^@]+@[^@]+[^@]+$/.test(email)) {
             setLoginError('Please enter a valid email');
         }
         else if (password.length < 6) {
