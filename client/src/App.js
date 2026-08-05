@@ -20,10 +20,9 @@ const App = () => {
   const [curriculum, setCurriculum] = useState([]);
   const [payForm, setPayForm] = useState({ plan: "pro" });
   const [paying, setPaying] = useState(false);
-  const [payDone, setPayDone] = useState(false);
-  const [projectData,setProjectData]=useState("")
+  const [projectData, setProjectData] = useState("")
 
- 
+
 
   const fetchCuriculumData = async () => {
     await axios.get("http://localhost:8000/api/fetch").then((response) => {
@@ -31,7 +30,7 @@ const App = () => {
       console.log("all data", response.data)
     }).catch(error => { console.log("errr", error) })
   }
-  
+
 
   useEffect(() => {
     fetchCuriculumData()
@@ -51,12 +50,11 @@ const App = () => {
     {
       path: "/payment",
       element: <RazorPayment
-              C={C}
+        C={C}
         payForm={payForm}
-        payDone={payDone}
         paying={paying}
         setPayForm={setPayForm}
-
+        setpaying={setPaying}
 
       />,
     },
@@ -65,10 +63,10 @@ const App = () => {
       element: <MernCourse
         C={C}
         CURRICULUM={curriculum}
-        setCurriculum={setCurriculum} 
+        setCurriculum={setCurriculum}
         projectData={projectData}
         setProjectData={setProjectData}
-        />,
+      />,
     }
 
   ])

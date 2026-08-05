@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { styles } from "./RazorStyle";
 import { useNavigate } from "react-router-dom";
@@ -47,50 +47,19 @@ const icons = {
 /* ─────────────────────────────────────────────
    HELPERS
 ───────────────────────────────────────────── */
-function fmtCard(val) {
-    return val.replace(/\D/g, "").slice(0, 4);
-}
 
-function detectBrand(digits) {
-    const n = digits.join("");
-    if (/^4/.test(n)) return "visa";
-    if (/^5[1-5]/.test(n)) return "mc";
-    if (/^(6[0-9]{15})/.test(n) || /^(508[0-9]|6521|6522)/.test(n)) return "rupay";
-    if (/^3[47]/.test(n)) return "amex";
-    return "";
-}
 
 function randomTxn() {
     return "pay_" + Math.random().toString(36).slice(2, 12).toUpperCase();
 }
 
-const PRODUCTS = [
-    { name: "Pro Plan — 1 Year", desc: "Unlimited features + priority support", price: 1, icon: "⚡", bg: "#fef3c7" },
-    { name: "Cloud Storage — 100GB", desc: "Secure encrypted storage", price: 1, icon: "☁️", bg: "#e0f2fe" },
-    { name: "Setup & Onboarding", desc: "One-time configuration fee", price: 1, icon: "🛠️", bg: "#f0fdf4" },
-];
-const SUBTOTAL = PRODUCTS.reduce((s, p) => s + p.price, 0);
-const DISCOUNT = 1;
-const GST = Math.round((SUBTOTAL - DISCOUNT) * 0.18);
-const TOTAL = SUBTOTAL - DISCOUNT + GST;
-
-const BANKS = [
-    { name: "SBI", emoji: "🏛️" },
-    { name: "HDFC", emoji: "🏦" },
-    { name: "ICICI", emoji: "🔵" },
-    { name: "Axis", emoji: "🟣" },
-    { name: "Kotak", emoji: "🔴" },
-    { name: "Other", emoji: "🏢" },
-];
 
 /* ─────────────────────────────────────────────
    MAIN COMPONENT
 ───────────────────────────────────────────── */
-export default function RazorPayment({ payForm, payDone, paying, setPayForm, C }) {
+export default function RazorPayment({ payForm, paying, setPaying, setPayForm, C }) {
 
     const navigate = useNavigate()
-    const [tab, setTab] = useState("card");
-    const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [txnId, setTxnId] = useState("");
 
@@ -100,32 +69,10 @@ export default function RazorPayment({ payForm, payDone, paying, setPayForm, C }
     const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
     const [showPw, setShowPw] = useState(false);
-    /* CARD */
-    const [segs, setSegs] = useState(["", "", "", ""]);
-    const [expiry, setExpiry] = useState("");
-    const [cvv, setCvv] = useState("");
-    const [cardName, setCardName] = useState("");
-    const brand = detectBrand(segs);
-
-    /* UPI */
-    const [upiId, setUpiId] = useState("");
-    const [upiApp, setUpiApp] = useState("");
-
-    /* NET BANKING */
-    const [bank, setBank] = useState("");
 
     /* ERRORS */
     const [err, setErr] = useState({});
 
-    /* ── RAZORPAY SCRIPT LOADER ── */
-    const intialRazor = () => {
-        const s = document.createElement("script");
-        s.src = "https://checkout.razorpay.com/v1/checkout.js";
-        s.async = true;
-        document.body.appendChild(s);
-        return () => document.body.removeChild(s);
-
-    }
 
     /* ── VALIDATION ── */
     const validate = () => {
@@ -135,17 +82,6 @@ export default function RazorPayment({ payForm, payDone, paying, setPayForm, C }
         if (!password) e.password = "Valid password required";
         if (!phone || phone.replace(/\D/, "").length < 10) e.phone = "10-digit phone required";
 
-        {/*if (!phone || phone.replace(/\D/, "").length < 10) e.phone = "10-digit phone required";
-
-        if (tab === "card") {
-            if (segs.some(s => s.length < 4)) e.card = "Complete card number";
-            if (!expiry || expiry.length < 5) e.expiry = "MM/YY required";
-            if (!cvv || cvv.length < 3) e.cvv = "CVV required";
-            if (!cardName.trim()) e.cardName = "Name on card required";
-        }
-        if (tab === "upi" && !upiId.includes("@")) e.upi = "Enter valid UPI ID (e.g. name@upi)";
-        if (tab === "netbanking" && !bank) e.bank = "Select a bank";
-*/}
         return e;
     };
     const initializeRazorpay = () => {
@@ -174,10 +110,6 @@ export default function RazorPayment({ payForm, payDone, paying, setPayForm, C }
         const errors = validate();
         setErr(errors);
         if (Object.keys(errors).length) return;
-        console.log("all details,", name, email, phone, cardName, cvv, expiry, segs, tab, txnId,
-            payForm.plan === "pro" ? 501 : 201, password)
-
-
         // Try actual Razorpay SDK if loaded 
         if (window.Razorpay) {
             const options = {
@@ -186,7 +118,7 @@ export default function RazorPayment({ payForm, payDone, paying, setPayForm, C }
                 currency: "INR",
                 name: "MERN Development Kit",
                 description: "Order #ORD-2024-001",
-                prefill: { name:"Kajal Patel", email:"kajlfultariya@gmail.com", contact: 9687606592 },
+                prefill: { name: "Kajal Patel", email: "kajlfultariya@gmail.com", contact: 9687606592 },
                 theme: { color: "#3395FF" },
                 handler: async (response) => {
                     console.log("razor response", response,
@@ -211,9 +143,9 @@ export default function RazorPayment({ payForm, payDone, paying, setPayForm, C }
                     setTxnId(response.razorpay_payment_id || randomTxn());
                     setSuccess(true);
                 },
-                modal: { ondismiss: () => setLoading(false) },
+                //modal: { ondismiss: () => setLoading(false) },
             };
-            setLoading(true);
+
             try {
                 const rzp = new window.Razorpay(options);
                 rzp.open();
@@ -223,32 +155,9 @@ export default function RazorPayment({ payForm, payDone, paying, setPayForm, C }
 
         }
 
-        /*setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
-            // setTxnId(randomTxn());
-            setSuccess(true);
-        }, 2200);*/
+
     };
 
-    /* ── CARD SEGMENT INPUT ── */
-    const handleSeg = (i, val) => {
-        const v = val.replace(/\D/, "").slice(0, 4);
-        const n = [...segs];
-        n[i] = v;
-        setSegs(n);
-        if (v.length === 4 && i < 3) {
-            document.getElementById(`seg-${i + 1}`)?.focus();
-        }
-        setErr(p => ({ ...p, card: "" }));
-    };
-
-    /* ── EXPIRY FORMAT ── */
-    const handleExpiry = (v) => {
-        let clean = v.replace(/\D/, "");
-        if (clean.length > 2) clean = clean.slice(0, 2) + "/" + clean.slice(2, 4);
-        setExpiry(clean);
-    };
 
     if (success) return (
         <>
@@ -263,14 +172,14 @@ export default function RazorPayment({ payForm, payDone, paying, setPayForm, C }
                             </div>
                             <h2 className="success-title">Payment Successful! 🎉</h2>
                             <p className="success-msg">
-                                Your payment of <strong>₹{/*TOTAL.toLocaleString("en-IN")*/}{payForm.plan === "pro" ? 501 : 201}</strong> has been received.<br />
+                                Your payment of <strong>₹{payForm.plan === "pro" ? 501 : 201}</strong> has been received.<br />
                                 A confirmation has been sent to <strong>{email}</strong>
                             </p>
                             <div className="success-txn">TXN ID: {txnId}</div>
                             <div className="success-detail">
                                 <div className="detail-box">
                                     <div className="detail-label">Amount Paid</div>
-                                    <div className="detail-val">₹{/*TOTAL.toLocaleString("en-IN")*/}
+                                    <div className="detail-val">₹
                                         {payForm.plan === "pro" ? 501 : 201}
                                     </div>
                                 </div>
