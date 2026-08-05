@@ -199,7 +199,7 @@ function Modal({ onClose }) {
               <div className="field">
                 <div className="field-label">
                   <span className="label-text">Password</span>
-                  {/*<a href="#" className="forgot-link">Forgot?</a>*/}
+               
                 </div>
                 <div className="input-wrap">
                   <span className="field-icon"><LockIcon /></span>

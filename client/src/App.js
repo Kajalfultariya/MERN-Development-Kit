@@ -23,11 +23,7 @@ const App = () => {
   const [payDone, setPayDone] = useState(false);
   const [projectData,setProjectData]=useState("")
 
-  const handlePay = (e) => {
-    e.preventDefault();
-    setPaying(true);
-    setTimeout(() => { setPayDone(true); setPaying(false); }, 2000);
-  };
+ 
 
   const fetchCuriculumData = async () => {
     await axios.get("http://localhost:8000/api/fetch").then((response) => {
@@ -55,8 +51,7 @@ const App = () => {
     {
       path: "/payment",
       element: <RazorPayment
-       // handlePay={handlePay}
-        C={C}
+              C={C}
         payForm={payForm}
         payDone={payDone}
         paying={paying}
