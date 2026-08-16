@@ -114,7 +114,7 @@ export default function RazorPayment({ payForm, paying, setPaying, setPayForm, C
         if (window.Razorpay) {
             const options = {
                 key: "rzp_live_TQWCV2QEQzdUch",
-                amount: 100 * amount,
+                amount: 100 * payForm.plan === "pro" ? 501 : 201,
                 currency: "INR",
                 name: "MERN Development Kit",
                 description: "Order #ORD-2024-001",
