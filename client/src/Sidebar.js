@@ -30,9 +30,10 @@ const Sidebar = ({ C, activeLesson, curriculum, customer, projectData, setProjec
     sidebarOpen, doneLessons, totalLessons, activeModule }) => {
     return (
         <aside className={`course-sidebar${sidebarOpen ? " open" : ""}`} style={{
-            width: 288, flexShrink: 0, background: C.sidebar, borderRight: `1px solid ${C.border}`,
-            display: "flex", flexDirection: "column", overflowY: "auto", transition: "width .25s ease",
-            ...(sidebarOpen ? {} : { width: 0, overflow: "hidden" }),
+            width: 288, maxWidth: "82vw", flexShrink: 0, background: C.sidebar, borderRight: `1px solid ${C.border}`,
+            display: "flex", flexDirection: "column", overflowY: sidebarOpen ? "auto" : "hidden", overflowX: "hidden",
+            transition: "width .25s ease",
+            ...(sidebarOpen ? {} : { width: 0 }),
         }}>
             {/* Sidebar header */}
             <div style={{

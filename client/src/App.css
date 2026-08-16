@@ -23,6 +23,15 @@ input::placeholder {
   border-radius: 8px;
   text-align: left;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: min(92vw, 480px);
+  max-height: 88vh;
+  overflow-y: auto;
+  animation: modalPopIn 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes modalPopIn {
+  from { opacity: 0; transform: scale(0.92) translateY(12px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 
@@ -34,12 +43,19 @@ input::placeholder {
   color: var(--text-primary);
   font-weight: 600;
   cursor: pointer;
-  transition: var(--transition);
+  transition: var(--transition), transform 0.18s ease, box-shadow 0.18s ease;
 }
 
 .setting-btn:hover {
   border-color: var(--primary-color);
   color: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(99, 102, 241, 0.18);
+}
+
+.setting-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
 }
 
 .setting-btn.delete-btn {
@@ -74,9 +90,9 @@ input::placeholder {
 /* Target the arrow characters and change their color to black */
 .slick-prev:before,
 .slick-next:before {
-  color: black ;
-  font-size: 35px;
-  
+  color: #ffffff;
+  font-size: 20px;
+  opacity: 1;
 }
 
 
@@ -84,39 +100,121 @@ input::placeholder {
 .slick-prev,
 .slick-next {
   z-index: 10;
+  width: 38px;
+  height: 38px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+  border-radius: 50% !important;
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.slick-prev:hover,
+.slick-next:hover {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+  transform: scale(1.1);
+  box-shadow: 0 8px 22px rgba(99, 102, 241, 0.55);
+}
 
+.slick-dots li button:before {
+  font-size: 10px;
+  color: #94a3b8;
+  opacity: 0.6;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
 
-
+.slick-dots li.slick-active button:before {
+  color: #6366f1;
+  opacity: 1;
+}
 
 .slider-container {
-  width: 98%;
+  width: 92%;
+  max-width: 1100px;
   margin: 80px auto;
   position: relative;
+}
 
+.slider-container .slick-slide > div {
+  max-width: 100%;
+}
+
+.slider-container pre,
+.slider-container code {
+  max-width: 100%;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 /* Move dots to top */
 .slick-dots {
   top: -50px;
   bottom: auto;
-
 }
 
 /* Move previous arrow to top-left */
 .slick-prev {
   top: 40px;
   left: -60px;
-  z-index: 10;
 }
 
 /* Move next arrow to top-right */
 .slick-next {
   top: 40px;
   right: -40px;
-  z-index: 10;
+}
 
+/* ==================== RESPONSIVE: SLIDER ==================== */
+@media (max-width: 1200px) {
+  .slider-container {
+    width: 94%;
+  }
+  .slick-prev {
+    left: -20px;
+  }
+  .slick-next {
+    right: -10px;
+  }
+}
+
+@media (max-width: 900px) {
+  .slider-container {
+    margin: 130px auto 40px;
+  }
+  .slick-dots {
+    top: -104px;
+    bottom: auto;
+  }
+  .slick-prev,
+  .slick-next {
+    top: -16px;
+    bottom: auto;
+    transform: none;
+    width: 30px;
+    height: 30px;
+  }
+  .slick-prev {
+    left: 10px;
+  }
+  .slick-next {
+    right: 10px;
+  }
+}
+
+@media (max-width: 560px) {
+  .slider-container {
+    width: 96%;
+    margin: 120px auto 30px;
+  }
+  .slick-prev:before,
+  .slick-next:before {
+    font-size: 16px;
+  }
+  .slick-prev,
+  .slick-next {
+    width: 26px;
+    height: 26px;
+    top: -14px;
+  }
 }
 
 .form-input::placeholder {
@@ -156,4 +254,24 @@ input::placeholder {
   margin-top: 0.4rem;
   border: 1px solid #ccc;
   border-radius: 6px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-groupmodel input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+/* ==================== GLOBAL RESPONSIVE HELPERS ==================== */
+@media (max-width: 640px) {
+  .modal-content {
+    padding: 1.25rem;
+    border-radius: 12px;
+  }
+
+  .setting-btn {
+    padding: 10px 16px;
+    font-size: 0.85rem;
+  }
 }

@@ -27,7 +27,9 @@ export default function MernCourse({ C, CURRICULUM, setCurriculum, projectData, 
 
 
     const navigate = useNavigate()
-    const [sidebarOpen, setSidebarOpen] = useState(true);
+    const [sidebarOpen, setSidebarOpen] = useState(() =>
+        typeof window === "undefined" ? true : window.innerWidth > 900
+    );
     const [activeLesson, setActiveLesson] = useState("l1_1");
     const [activeModule, setActiveModule] = useState("m1");
     const [expandedModules, setExpandedModules] = useState({ m1: false, m2: false, m3: false, m4: false, m5: false, m6: false });
@@ -113,18 +115,47 @@ export default function MernCourse({ C, CURRICULUM, setCurriculum, projectData, 
             <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap');
         *{box-sizing:border-box;margin:0;padding:0}
+        html{-webkit-text-size-adjust:100%}
+        html,body,#root{overflow-x:hidden;width:100%}
         ::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#1E293B;border-radius:4px}
         @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-        .lesson-item{transition:background .15s,color .15s}
-        .lesson-item:hover{background:rgba(255,255,255,.04)!important}
-        .sb-mod-btn{transition:background .15s}
+        @keyframes slideDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+        .lesson-item{transition:background .18s ease,color .18s ease,transform .15s ease}
+        .lesson-item:hover{background:rgba(255,255,255,.04)!important;transform:translateX(2px)}
+        .sb-mod-btn{transition:background .18s ease}
         .sb-mod-btn:hover{background:rgba(255,255,255,.04)!important}
+        button{-webkit-tap-highlight-color:transparent}
+        img{max-width:100%}
+        .content-card:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.06)}
+        @media(max-width:640px){
+          .content-card{padding:16px 16px!important}
+        }
+
+        /* ── Sidebar: fixed drawer under 900px ── */
         @media(max-width:900px){
-          .course-sidebar{position:fixed!important;z-index:200!important;height:100vh!important;top:0!important;left:0!important;transform:translateX(-100%);transition:transform .25s ease!important}
+          .course-sidebar{position:fixed!important;z-index:200!important;height:100vh!important;top:0!important;left:0!important;transform:translateX(-100%);transition:transform .25s ease!important;width:min(288px,82vw)!important;box-shadow:0 0 40px rgba(0,0,0,.35)}
           .course-sidebar.open{transform:translateX(0)!important}
-          .sidebar-overlay{display:block!important}
+          .sidebar-overlay.show{display:block!important;animation:fadeIn .2s ease both}
         }
         @media(min-width:901px){.sidebar-overlay{display:none!important}.mob-menu-btn{display:none!important}}
+        @media(max-width:900px){.desktop-toggle-btn{display:none!important}}
+
+        /* ── Header: tighten up on small screens ── */
+        @media(max-width:700px){
+          .app-header{padding:0 12px!important;gap:10px!important}
+          .app-header .header-breadcrumb{display:none!important}
+          .app-header .header-search{width:clamp(90px,32vw,160px)!important}
+          .app-header .header-logo-text{display:none!important}
+          .app-header .signout-btn{width:auto!important;padding:0 12px!important;font-size:12px!important}
+        }
+        @media(max-width:420px){
+          .app-header .header-search{display:none!important}
+        }
+
+        /* ── Main content spacing on small screens ── */
+        @media(max-width:640px){
+          .main-content-inner{padding-left:16px!important;padding-right:16px!important}
+        }
       `}</style>
 
             {/* ── TOP NAVBAR ── */}
@@ -148,7 +179,7 @@ export default function MernCourse({ C, CURRICULUM, setCurriculum, projectData, 
             <div style={{ flex: 1, display: "flex", overflow: "hidden", position: "relative" }}>
 
                 {/* Overlay for mobile */}
-                <div className="sidebar-overlay"
+                <div className={`sidebar-overlay${sidebarOpen ? " show" : ""}`}
                     onClick={() => setSidebarOpen(false)}
                     style={{
                         display: "none", position: "fixed",

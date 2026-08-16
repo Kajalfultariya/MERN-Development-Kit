@@ -567,4 +567,30 @@ export const styles = `
     font-weight: 500;
     transition: color 0.3s;
   }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 480px) {
+    .page { padding: 12px; }
+    .modal { max-width: 100%; border-radius: 16px; }
+    .modal-header { padding: 26px 22px 0; }
+    .modal-body { padding: 22px 22px 28px; }
+    .modal-title { font-size: 24px; }
+    .modal-logo { width: 40px; height: 40px; margin-bottom: 16px; }
+    .field-input { padding: 12px 12px 12px 40px; font-size: 16px; }
+    .btn-submit { padding: 13px; }
+    .success-body { padding: 32px 22px 36px; }
+  }
+
+  @media (max-width: 360px) {
+    .modal-header { padding: 22px 16px 0; }
+    .modal-body { padding: 18px 16px 24px; }
+  }
+
+  /* Respect reduced motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    .blob, .overlay, .modal, .modal.closing, .overlay.closing,
+    .success-ring, .success-body, .spinner, .field-error {
+      animation: none !important;
+    }
+  }
 `;

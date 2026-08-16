@@ -14,7 +14,7 @@ const MainContent = ({ contentRef, projectData, setProjectData,
             {projectData === "Project3" && <CodeSlider3/>}
 
             {projectData === "" &&
-                <><div style={{ padding: "20px 28px 0", flexShrink: 0 }}>
+                <><div className="main-content-inner" style={{ padding: "20px 28px 0", flexShrink: 0 }}>
                     <div style={{
                         display: "flex", alignItems: "flex-start",
                         justifyContent: "space-between", gap: 16,
@@ -41,10 +41,12 @@ const MainContent = ({ contentRef, projectData, setProjectData,
                             </div>
                             <h1 style={{ fontSize: "clamp(20px,3.5vw,30px)", fontWeight: 800, letterSpacing: "-.02em", lineHeight: 1.2 }}>{lessonContent.title}</h1>
                         </div>
-                        <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
+                        <div style={{ display: "flex", gap: 8, flexShrink: 0, flexWrap: "wrap" }}>
                             {!currentLesson?.done && (
                                 <button onClick={() => markDone(activeLesson)}
-                                    style={{ padding: "9px 18px", background: "rgba(16,185,129,.1)", border: "1px solid rgba(16,185,129,.3)", borderRadius: 9, color: "#10B981", fontSize: 13, fontWeight: 600, cursor: "pointer" }}>
+                                    style={{ padding: "9px 18px", background: "rgba(16,185,129,.1)", border: "1px solid rgba(16,185,129,.3)", borderRadius: 9, color: "#10B981", fontSize: 13, fontWeight: 600, cursor: "pointer", transition: "transform .15s ease, box-shadow .15s ease" }}
+                                    onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 8px 18px rgba(16,185,129,.25)"; }}
+                                    onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "none"; }}>
                                     ✓ Mark Complete
                                 </button>
                             )}
@@ -56,8 +58,11 @@ const MainContent = ({ contentRef, projectData, setProjectData,
                                 }
                                 } style={{
                                     padding: "9px 18px", background: "linear-gradient(135deg,#6366F1,#8B5CF6)",
-                                    border: "none", borderRadius: 9, color: "#fff", fontSize: 13, fontWeight: 600, cursor: "pointer"
-                                }}>
+                                    border: "none", borderRadius: 9, color: "#fff", fontSize: 13, fontWeight: 600, cursor: "pointer",
+                                    transition: "transform .15s ease, box-shadow .15s ease", boxShadow: "0 4px 12px rgba(99,102,241,.3)"
+                                }}
+                                    onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 10px 22px rgba(99,102,241,.45)"; }}
+                                    onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 4px 12px rgba(99,102,241,.3)"; }}>
                                     Next Lesson →
                                 </button>
                             )}
@@ -66,18 +71,18 @@ const MainContent = ({ contentRef, projectData, setProjectData,
                 </div>
 
                     {/* Scrollable content */}
-                    <div style={{ flex: 1, padding: "0 28px 40px", display: "flex", flexDirection: "column", gap: 20 }}>
+                    <div className="main-content-inner" style={{ flex: 1, padding: "0 28px 40px", display: "flex", flexDirection: "column", gap: 20 }}>
 
                         {/* Description */}
                         {lessonContent.description &&
-                            <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 14, padding: "20px 22px" }}>
+                            <div className="content-card" style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 14, padding: "20px 22px", transition: "transform .2s ease, box-shadow .2s ease" }}>
                                 <div style={{ fontSize: 13, fontWeight: 700, color: C.sub, textTransform: "uppercase", letterSpacing: ".07em", marginBottom: 10 }}>About this lesson</div>
                                 <p style={{ fontSize: 15, color: C.sub, lineHeight: 1.8 }}>{lessonContent.description}</p>
                             </div>
                         }
                         {/* Objectives */}
                         {lessonContent.objectives &&
-                            <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 14, padding: "20px 22px" }}>
+                            <div className="content-card" style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 14, padding: "20px 22px", transition: "transform .2s ease, box-shadow .2s ease" }}>
                                 <div style={{ fontSize: 13, fontWeight: 700, color: C.sub, textTransform: "uppercase", letterSpacing: ".07em", marginBottom: 14 }}>🎯 Learning Objectives</div>
                                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 10 }}>
                                     {lessonContent.objectives.map((obj, i) => (
@@ -129,7 +134,7 @@ const MainContent = ({ contentRef, projectData, setProjectData,
                             </div>
                         }
                         {/* Your notes 
-                <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 14, padding: "20px 22px" }}>
+                <div className="content-card" style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 14, padding: "20px 22px", transition: "transform .2s ease, box-shadow .2s ease" }}>
                     <div style={{ fontSize: 13, fontWeight: 700, color: C.sub, textTransform: "uppercase", letterSpacing: ".07em", marginBottom: 12 }}>📝 My Notes</div>
                     <textarea value={noteText} onChange={e => setNoteText(e.target.value)} placeholder="Write your own notes for this lesson..." style={{ width: "100%", minHeight: 100, padding: "12px 14px", background: C.surface, border: `1px solid ${C.border}`, borderRadius: 9, color: C.text, fontSize: 14, resize: "vertical", outline: "none", fontFamily: "'Outfit',sans-serif", lineHeight: 1.7 }} />
                     <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 10 }}>
@@ -140,10 +145,10 @@ const MainContent = ({ contentRef, projectData, setProjectData,
                 </div>*/}
 
                         {/* Module lessons quick nav */}
-                        <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 14, padding: "20px 22px" }}>
+                        <div className="content-card" style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 14, padding: "20px 22px", transition: "transform .2s ease, box-shadow .2s ease" }}>
                             <div style={{ fontSize: 13, fontWeight: 700, color: C.sub, textTransform: "uppercase", letterSpacing: ".07em", marginBottom: 14 }}>📚 All Lessons in {currentLesson?.module?.week}</div>
                             {currentLesson?.module?.lessons.map((lesson, i) => (
-                                <div key={lesson.id} onClick={() => goToLesson(lesson.id, currentLesson.module.id)} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 12px", borderRadius: 9, cursor: "pointer", marginBottom: 4, background: lesson.id === activeLesson ? "rgba(99,102,241,.1)" : "transparent", border: lesson.id === activeLesson ? "1px solid rgba(99,102,241,.25)" : "1px solid transparent", transition: "background .15s" }}>
+                                <div key={lesson.id} className="lesson-item" onClick={() => goToLesson(lesson.id, currentLesson.module.id)} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 12px", borderRadius: 9, cursor: "pointer", marginBottom: 4, background: lesson.id === activeLesson ? "rgba(99,102,241,.1)" : "transparent", border: lesson.id === activeLesson ? "1px solid rgba(99,102,241,.25)" : "1px solid transparent" }}>
                                     <span style={{ fontFamily: "'Fira Code',monospace", fontSize: 11, fontWeight: 700, color: "#818CF8", minWidth: 20 }}>{String(i + 1).padStart(2, "0")}</span>
                                     <div style={{ flex: 1 }}>
                                         <div style={{ fontSize: 13, color: lesson.id === activeLesson ? C.text : C.sub, fontWeight: lesson.id === activeLesson ? 600 : 400 }}>{lesson.title}</div>

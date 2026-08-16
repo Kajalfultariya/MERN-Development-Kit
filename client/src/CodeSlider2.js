@@ -733,7 +733,7 @@ root.render(
   }
 ];
 
-function CodeSlider2() {
+const CodeSlider2 = () => {
   const settings = {
     arrows: true,
     dots: true,
@@ -745,8 +745,17 @@ function CodeSlider2() {
   };
 
   return (
-    <div style={{ width: "85%", margin: "30px auto" }}>
-      <h1 style={{ textAlign: "center" }}>
+    <div style={{ width: "min(92%, 1100px)", margin: "clamp(20px,4vw,30px) auto" }}>
+      <h1 style={{
+        textAlign: "center",
+        fontSize: "clamp(18px, 3.2vw, 28px)",
+        fontWeight: 800,
+        letterSpacing: "-.01em",
+        background: "linear-gradient(135deg,#6366F1,#EC4899)",
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+        padding: "0 12px"
+      }}>
         MERN Project - 2 (Notes Management)
       </h1>
       <div className="slider-container">
@@ -755,25 +764,47 @@ function CodeSlider2() {
             <div key={index}>
               <div
                 style={{
-
-                  padding: "30px",
+                  padding: "clamp(16px,4vw,30px)",
                   background: "#282c34",
-                  borderRadius: "20px"
+                  borderRadius: "20px",
+                  border: "1px solid rgba(255,255,255,.06)",
+                  boxShadow: "0 20px 45px rgba(0,0,0,.35)",
+                  boxSizing: "border-box",
+                  maxWidth: "100%",
+                  overflow: "hidden"
                 }}
               >
-                <h2 style={{ color: "white" }}>
-                  {item.fileName}
-                </h2>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14, flexWrap: "wrap" }}>
+                  <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
+                    {["#FF5F57", "#FEBC2E", "#28C840"].map(c => (
+                      <div key={c} style={{ width: 10, height: 10, borderRadius: "50%", background: c }} />
+                    ))}
+                  </div>
+                  <h2 style={{
+                    color: "white",
+                    fontSize: "clamp(13px,2.2vw,17px)",
+                    fontFamily: "'Fira Code',monospace",
+                    fontWeight: 600,
+                    wordBreak: "break-word",
+                    margin: 0
+                  }}>
+                    {item.fileName}
+                  </h2>
+                </div>
 
                 <pre
                   style={{
                     color: "#61dafb",
-                    overflowX: "auto",
                     whiteSpace: "pre-wrap",
-
+                    wordBreak: "break-word",
+                    overflowWrap: "anywhere",
+                    maxWidth: "100%",
+                    fontSize: "clamp(11px,1.6vw,14px)",
+                    lineHeight: 1.7,
+                    margin: 0
                   }}
                 >
-                  <code>{item.code}</code>
+                  <code style={{ wordBreak: "break-word", overflowWrap: "anywhere" }}>{item.code}</code>
                 </pre>
               </div>
             </div>
