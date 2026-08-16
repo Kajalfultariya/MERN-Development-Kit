@@ -11,7 +11,7 @@ app.use(
     cors({
         origin: [
             "http://localhost:3000",
-            "https://www.merndevelopmentkit.com"
+            "https://www.merndevelopmentkit.com",
         ],
         methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
         allowedHeaders: ["Content-Type", "Authorization"],
