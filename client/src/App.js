@@ -23,14 +23,29 @@ const App = () => {
   const [projectData, setProjectData] = useState("")
 
 
-
+  /*
+    const fetchCuriculumData = async () => {
+      await axios.get("https://www.merndevelopmentkit.com/api/fetch").then((response) => {
+        setCurriculum(response.data)
+        console.log("all data", response.data)
+      }).catch(error => { console.log("errr", error) })
+    }
+  */
   const fetchCuriculumData = async () => {
-    await axios.get("https://www.merndevelopmentkit.com/api/fetch").then((response) => {
-      setCurriculum(response.data)
-      console.log("all data", response.data)
-    }).catch(error => { console.log("errr", error) })
+    await axios.get("https://www.merndevelopmentkit.com/api/fetch")
+      .then((response) => {
+        if (Array.isArray(response.data)) {
+          setCurriculum(response.data);
+        } else {
+          console.error("Unexpected curriculum response shape:", response.data);
+          setCurriculum([]); // fail safe, don't crash the app
+        }
+      })
+      .catch(error => {
+        console.log("errr", error);
+        setCurriculum([]);
+      });
   }
-
 
   useEffect(() => {
     fetchCuriculumData()
