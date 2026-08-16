@@ -5,7 +5,7 @@ import axios from "axios";
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import LandingPage from "./LandingPage";
 import RazorPayment from "./RazorPayment";
-import { Navigate } from "react-router-dom";
+
 
 const C = {
   bg: "#F1F5F9", surface: "#94A3B8", card: "#F1F5F9",
