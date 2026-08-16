@@ -25,7 +25,7 @@ const App = () => {
 
 
   const fetchCuriculumData = async () => {
-    await axios.get("http://localhost:8000/api/fetch").then((response) => {
+    await axios.get("https://merndevkitserver.vercel.app//api/fetch").then((response) => {
       setCurriculum(response.data)
       console.log("all data", response.data)
     }).catch(error => { console.log("errr", error) })
@@ -34,7 +34,6 @@ const App = () => {
 
   useEffect(() => {
     fetchCuriculumData()
-
   }, [])
 
 
@@ -54,7 +53,7 @@ const App = () => {
         payForm={payForm}
         paying={paying}
         setPayForm={setPayForm}
-        setpaying={setPaying}
+        setPaying={setPaying}
 
       />,
     },

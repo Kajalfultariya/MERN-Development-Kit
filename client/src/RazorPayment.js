@@ -135,10 +135,10 @@ export default function RazorPayment({ payForm, paying, setPaying, setPayForm, C
 
 
                     }
-                    await axios.post("http://localhost:8000/api/createCustomer", newData)
-                        .then((response) => {
-                            console.log("response api", response)
-                        }).catch(error => { console.log("errr", error) })
+                        await axios.post("https://merndevkitserver.vercel.app//api/createCustomer", newData)
+                            .then((response) => {
+                                console.log("response api", response)
+                            }).catch(error => { console.log("errr", error) })
 
                     setTxnId(response.razorpay_payment_id || randomTxn());
                     setSuccess(true);
