@@ -113,7 +113,7 @@ export default function RazorPayment({ payForm, paying, setPaying, setPayForm, C
         // Try actual Razorpay SDK if loaded 
         if (window.Razorpay) {
             const options = {
-                key: "rzp_live_KXyjCmuF2X0wAMDWGR0l6jx9",
+                key: "rzp_live_TQWCV2QEQzdUch",
                 amount: 100 * 100,
                 currency: "INR",
                 name: "MERN Development Kit",
