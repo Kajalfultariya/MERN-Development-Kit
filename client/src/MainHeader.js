@@ -137,6 +137,7 @@ const MainHeader = ({ C, progress, goToLesson, setSearchQ, projectData, setProje
                 localStorage.clear();
                 setProjectData("");
                 navigate("/");
+                window.location.reload();
             }}
                 onMouseEnter={(e) => {
                     e.currentTarget.style.transform = "translateY(-3px) scale(1.05)";

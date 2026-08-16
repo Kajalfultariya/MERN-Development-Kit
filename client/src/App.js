@@ -5,7 +5,7 @@ import axios from "axios";
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import LandingPage from "./LandingPage";
 import RazorPayment from "./RazorPayment";
-
+import { Navigate } from "react-router-dom";
 
 const C = {
   bg: "#F1F5F9", surface: "#94A3B8", card: "#F1F5F9",
@@ -16,6 +16,7 @@ const C = {
 };
 
 const App = () => {
+
 
   const [curriculum, setCurriculum] = useState([]);
   const [payForm, setPayForm] = useState({ plan: "pro" });
@@ -40,11 +41,21 @@ const App = () => {
   const route = createBrowserRouter([
     {
       path: "/",
-      element: <LandingPage
-        C={C}
-        CURRICULUM={curriculum}
-        setPayForm={setPayForm}
-      />,
+      element: localStorage.getItem("Id") ? (
+        <MernCourse
+          C={C}
+          CURRICULUM={curriculum}
+          setCurriculum={setCurriculum}
+          projectData={projectData}
+          setProjectData={setProjectData}
+        />
+      ) : (
+        <LandingPage
+          C={C}
+          CURRICULUM={curriculum}
+          setPayForm={setPayForm}
+        />
+      ),
     },
     {
       path: "/payment",

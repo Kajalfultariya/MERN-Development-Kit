@@ -61,7 +61,13 @@ const LandingPage = ({ C, setPayForm, CURRICULUM }) => {
         .btn-plan:hover::after{left:130%}
         .plan-card{transition:transform .25s,box-shadow .25s,border-color .25s}
         .plan-card:hover{transform:translateY(-6px)}
-        @media(max-width:768px){.land-hero{grid-template-columns:1fr!important;text-align:center}.land-hero-btns{justify-content:center!important}.feat-grid{grid-template-columns:1fr 1fr!important}.pricing-grid{grid-template-columns:1fr!important;max-width:380px!important;margin:0 auto!important}.contact-grid{grid-template-columns:1fr!important}}
+        .contact-grid input::placeholder,
+.contact-grid textarea::placeholder {
+  color: #3f3c3c;
+  opacity: 1;
+}
+        @media(max-width:768px){.land-hero{grid-template-columns:1fr!important;text-align:center}.land-hero-btns{justify-content:center!important}.feat-grid .hover-card{flex:1 1 100%!important;max-width:420px!important}
+        .pricing-grid{grid-template-columns:1fr!important;max-width:380px!important;margin:0 auto!important}.contact-grid{grid-template-columns:1fr!important}}
       `}</style>
             <SlideModal isOpen={openPreview} onClose={() => setOpenPreview(false)} CURRICULUM={CURRICULUM} />
             {/* Nav */}
@@ -85,7 +91,7 @@ const LandingPage = ({ C, setPayForm, CURRICULUM }) => {
                             <span style={{ color: "#000000", paddingLeft: "2px", fontSize: "19px" }}> Stack</span>
                             <span style={{ color: "#ffffff", paddingLeft: "3px", fontSize: "15px" }}> Course</span></span>
                     </div>
-                    <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                    <div style={{ display: "flex", gap: 28, alignItems: "center" }}>
                         <span style={{ fontSize: 13, color: "#ffffff", cursor: "pointer" }}
                             onClick={() => {
                                 setOpen(true)
@@ -212,14 +218,7 @@ const LandingPage = ({ C, setPayForm, CURRICULUM }) => {
                                     </span>
                                 </div>
                             ))}
-                            {/*<div style={{
-                            marginTop: 16, padding: "14px 16px",
-                            background: "linear-gradient(135deg,rgba(99,102,241,.15),rgba(139,92,246,.1))",
-                            borderRadius: 12, border: "2px solid rgba(99,102,241,.2)"
-                        }}>
-                            <div style={{ fontSize: 13, color: "#A5B4FC", fontWeight: 600, marginBottom: 4 }}>🎓 Certificate of Completion</div>
-                            <div style={{ fontSize: 12, color: C.muted }}>Earn a verifiable certificate after completing all modules and projects.</div>
-                        </div>*/}
+
                         </div>
                     </div>
                 </div>
@@ -235,17 +234,21 @@ const LandingPage = ({ C, setPayForm, CURRICULUM }) => {
                         Everything you need to go full-stack</h2>
                     <p style={{ textAlign: "center", color: C.sub, marginBottom: 48, fontSize: 16 }}>
                         Structured learning + real code + real projects = real skills</p>
-                    <div className="feat-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 18 }}>
+                    <div className="feat-grid" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 18 }}>
                         {[
                             ["🎥", "35+  Lessons", "lessons with code-along exercises for every concept"],
                             ["💻", "Code Labs", "Every module has a full working code file — ready to copy, study and modify"],
                             ["🏗", "3 Real Projects", "Build a Task Manager, Auth System, and a full-stack deployed app"],
                             ["📋", "Module Quizzes", "Test your knowledge after each week with interactive quizzes"],
                             ["🚀", "Deploy Guide", "Step-by-step deployment to MongoDB Atlas, Railway & Vercel"],
-                            
+
                         ].map(([icon, title, desc]) => (
                             <div key={title} className="hover-card"
-                                style={{ background: C.card, border: `2px solid ${C.border}`, borderRadius: 14, padding: "20px 22px" }}>
+                                style={{
+                                    flex: "1 1 320px",
+                                    maxWidth: 360,
+                                    background: C.card, border: `2px solid ${C.border}`, borderRadius: 14, padding: "20px 22px"
+                                }}>
                                 <div style={{ fontSize: 26, marginBottom: 12 }}>{icon}</div>
                                 <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 6, color: C.text }}>{title}</div>
                                 <div style={{ fontSize: 13, color: C.sub, lineHeight: 1.6 }}>{desc}</div>
@@ -366,7 +369,7 @@ const LandingPage = ({ C, setPayForm, CURRICULUM }) => {
                 <div style={{ maxWidth: 1200, margin: "0 auto" }}>
                     <h2 style={{ fontSize: "clamp(24px,3.5vw,38px)", fontWeight: 800, textAlign: "center", marginBottom: 12, letterSpacing: "-.03em" }}>Get in touch</h2>
                     <p style={{ textAlign: "center", color: C.sub, marginBottom: 48, fontSize: 16 }}>Questions about the course? We'd love to hear from you.</p>
-                    <div className="contact-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1.3fr", gap: 32, maxWidth: 960, margin: "0 auto", alignItems: "start" }}>
+                    <div className="contact-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1.3fr", gap: 32, maxWidth: 960, margin: "0 auto", alignItems: "center" }}>
                         {/* Info */}
                         <div>
                             {[
@@ -374,15 +377,15 @@ const LandingPage = ({ C, setPayForm, CURRICULUM }) => {
                                 ["💬", "Discord", "Join our community server"],
                                 ["🕐", "Response Time", "Usually within 24 hours"],
                             ].map(([icon, title, desc]) => (
-                                <div key={title} style={{ display: "flex", gap: 14, marginBottom: 24 }}>
+                                <div key={title} style={{ display: "flex", gap: 14, marginBottom: 40 }}>
                                     <div style={{
                                         width: 42, height: 42, borderRadius: 10, flexShrink: 0,
                                         background: "rgba(99,102,241,.1)", border: `2px solid rgba(99,102,241,.25)`,
                                         display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18
                                     }}>{icon}</div>
                                     <div>
-                                        <div style={{ fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 2 }}>{title}</div>
-                                        <div style={{ fontSize: 13, color: C.sub }}>{desc}</div>
+                                        <div style={{ fontSize: 18, fontWeight: 700, color: C.text, marginBottom: 4 }}>{title}</div>
+                                        <div style={{ fontSize: 15, color: C.sub }}>{desc}</div>
                                     </div>
                                 </div>
                             ))}
