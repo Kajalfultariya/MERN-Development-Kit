@@ -25,7 +25,7 @@ const App = () => {
 
 
   const fetchCuriculumData = async () => {
-    await axios.get("www.merndevelopmentkit.com/api/fetch").then((response) => {
+    await axios.get("https://www.merndevelopmentkit.com/api/fetch").then((response) => {
       setCurriculum(response.data)
       console.log("all data", response.data)
     }).catch(error => { console.log("errr", error) })

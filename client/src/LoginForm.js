@@ -94,7 +94,7 @@ function Modal({ onClose }) {
   };
 
   const fetchCustomerData = async () => {
-    await axios.get("www.merndevelopmentkit.com/api/fetchCustomer").then((response) => {
+    await axios.get("https://www.merndevelopmentkit.com/api/fetchCustomer").then((response) => {
       //setNextId(response.data.length)
       setCustomersData(response.data)
     }).catch(error => { console.log("errr", error) })
