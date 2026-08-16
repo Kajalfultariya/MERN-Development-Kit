@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import MernCourse from "./MernCourse";
 import "./App.css"
 import axios from "axios";
@@ -22,30 +22,22 @@ const App = () => {
   const [paying, setPaying] = useState(false);
   const [projectData, setProjectData] = useState("")
 
+
+
   const fetchCuriculumData = async () => {
-    await axios.get("https://www.merndevelopmentkit.com/api/fetch")
-      .then((response) => {
-        if (Array.isArray(response.data)) {
-          setCurriculum(response.data);
-        } else {
-          console.error("Unexpected curriculum response shape:", response.data);
-          setCurriculum([]); // fail safe, don't crash the app
-        }
-      })
-      .catch(error => {
-        console.log("errr", error);
-        setCurriculum([]);
-      });
+    await axios.get("https://www.merndevelopmentkit.com/api/fetch").then((response) => {
+      setCurriculum(response.data)
+      console.log("all data", response.data)
+    }).catch(error => { console.log("errr", error) })
   }
+
 
   useEffect(() => {
     fetchCuriculumData()
   }, [])
 
-  // Only rebuild the router when data that routes actually depend on changes.
-  // Creating a new router on every render (old code) can cause react-router
-  // to lose/reset internal navigation state.
-  const route = useMemo(() => createBrowserRouter([
+
+  const route = createBrowserRouter([
     {
       path: "/",
       element: <LandingPage
@@ -62,6 +54,7 @@ const App = () => {
         paying={paying}
         setPayForm={setPayForm}
         setPaying={setPaying}
+
       />,
     },
     {
@@ -74,11 +67,13 @@ const App = () => {
         setProjectData={setProjectData}
       />,
     }
-  ]), [curriculum, payForm, paying, projectData]);
+
+  ])
 
   return (
     <RouterProvider router={route}>
     </RouterProvider>
+
   )
 }
 
