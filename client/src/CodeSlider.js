@@ -564,7 +564,7 @@ const CreateStudent = () => {
     const [nextId, setNextId] = useState(1)
 
     const fetchStudentData = async () => {
-        await axios.get("https://merndevkitserver.vercel.app//api/fetchStudent")
+        await axios.get("https://merndevkitserver.vercel.app/api/fetchStudent")
             .then((response) => {
                 console.log("response", response)
                 setNextId(response.data.length+1)
@@ -588,7 +588,7 @@ const CreateStudent = () => {
             "phone": "+91 " + phone,
             "totalBorrowed": 0
         }
-        await axios.post("https://merndevkitserver.vercel.app//api/createStudent", newData)
+        await axios.post("https://merndevkitserver.vercel.app/api/createStudent", newData)
             .then((response) => {
                 navigate('/login')
             }).catch(error => { console.log("errr", error) })
@@ -2215,7 +2215,7 @@ const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
 
     const fetchBookData = async () => {
-        await axios.get("https://merndevkitserver.vercel.app//api/fetchStudent").then((response) => {
+        await axios.get("https://merndevkitserver.vercel.app/api/fetchStudent").then((response) => {
             //setNextId(response.data.length)
             setStudents(response.data)
         }).catch(error => { console.log("errr", error) })
@@ -3017,7 +3017,7 @@ const StudentLibraryManagement = () => {
   
   //get library Book data
   const fetchBookData = async () => {
-    await axios.get("https://merndevkitserver.vercel.app//api/fetch").then((response) => {
+    await axios.get("https://merndevkitserver.vercel.app/api/fetch").then((response) => {
       //setNextId(response.data.length)
       setBooks(response.data)
     }).catch(error => { console.log("errr", error) })
@@ -3025,7 +3025,7 @@ const StudentLibraryManagement = () => {
 
   //getlibrary student data
   const fetchStudentData = async () => {
-    await axios.get("https://merndevkitserver.vercel.app//api/fetchStudentOne/" + localStorage.getItem("studentId"))
+    await axios.get("https://merndevkitserver.vercel.app/api/fetchStudentOne/" + localStorage.getItem("studentId"))
       .then((response) => {
         setStudentInfo(response.data)
         setListBorrowStuId(response.data.activeBorrows)
@@ -3034,14 +3034,14 @@ const StudentLibraryManagement = () => {
 
   //get library Borrow Book data
   const fetchBorrowBookData = async () => {
-    await axios.get("https://merndevkitserver.vercel.app//api/fetchBook").then((response) => {
+    await axios.get("https://merndevkitserver.vercel.app/api/fetchBook").then((response) => {
       if (response.data)
         setBorrowedBooks(response.data)
     }).catch(error => { console.log("errr", error) })
   }
   //get library Student  data
   const fetchStudentListData = async () => {
-    await axios.get("https://merndevkitserver.vercel.app//api/fetchStudent").then((response) => {
+    await axios.get("https://merndevkitserver.vercel.app/api/fetchStudent").then((response) => {
       if (response.data)
         setStudentListData(response.data)
       console.log("student detail", response.data)
@@ -3087,19 +3087,19 @@ const StudentLibraryManagement = () => {
 
           const formData = { ...books, available: arrData }
           //update book list
-          await axios.put(https://merndevkitserver.vercel.app//api/update/\${bookId}, formData)
+          await axios.put(https://merndevkitserver.vercel.app/api/update/\${bookId}, formData)
             .then((response) => { }).catch(error => { console.log("errr", error) })
 
 
           //add boorow book data
-          await axios.post("https://merndevkitserver.vercel.app//api/createBook", newBorrow)
+          await axios.post("https://merndevkitserver.vercel.app/api/createBook", newBorrow)
             .then((response) => {
             }).catch(error => { console.log("errr", error) })
 
           //update student list
 
           const formDataId = { ...studentInfo, activeBorrows: arrIdData }
-          await axios.put(https://merndevkitserver.vercel.app//api/updateStudent/\${studentInfo._id}, formDataId)
+          await axios.put(https://merndevkitserver.vercel.app/api/updateStudent/\${studentInfo._id}, formDataId)
             .then((response) => {
               window.location.reload()
             }).catch(error => { console.log("errr", error) })
@@ -3121,7 +3121,7 @@ const StudentLibraryManagement = () => {
         const newArr = book.available.filter(item => item !== JSON.parse(localStorage.getItem("studentPersonalId")))
         const formData = { ...books, available: newArr }
         //update book list
-        await axios.put(https://merndevkitserver.vercel.app//api/update/\${book._id}, formData)
+        await axios.put(https://merndevkitserver.vercel.app/api/update/\${book._id}, formData)
           .then((response) => {
             console.log("update book", response.data)
             // window.location.reload()
@@ -3132,7 +3132,7 @@ const StudentLibraryManagement = () => {
         borrowedBooks.map(async (item) => (
           //  console.log("id and stuid", item.bookId, item.studentId),
           item.bookId === id && item.studentId === localStorage.getItem("studentId") ?
-            await axios.delete(https://merndevkitserver.vercel.app//api/deleteBook/\${item._id})
+            await axios.delete(https://merndevkitserver.vercel.app/api/deleteBook/\${item._id})
               .then((res) => {
                 setBorrowedBooks(borrowedBooks.filter(b => b.bookId !== bookId));
                 //window.location.reload()
@@ -3143,7 +3143,7 @@ const StudentLibraryManagement = () => {
         arrIdData = listBorrowStuId.filter(item => item !== id)
         //update student list
         const formDataId = { ...studentInfo, activeBorrows: arrIdData }
-        await axios.put(https://merndevkitserver.vercel.app//api/updateStudent/\${studentInfo._id}, formDataId)
+        await axios.put(https://merndevkitserver.vercel.app/api/updateStudent/\${studentInfo._id}, formDataId)
           .then((response) => {
             console.log("update res", response.data)
             window.location.reload()
@@ -3448,7 +3448,7 @@ const Profile = ({ studentInfo, borrowedBooks, books }) => {
                                                 }
 
                                                 //update student password
-                                                await axios.put(https://merndevkitserver.vercel.app//api/updateStudent/\${studentInfo._id},
+                                                await axios.put(https://merndevkitserver.vercel.app/api/updateStudent/\${studentInfo._id},
                                                     formData)
                                                     .then((response) => {
                                                         toast.success("successfully updated Profile");
@@ -3531,7 +3531,7 @@ const Profile = ({ studentInfo, borrowedBooks, books }) => {
                                                         const formData = { ...studentInfo, password: newPwd }
 
                                                         //update student password
-                                                        await axios.put(https://merndevkitserver.vercel.app//api/updateStudent/\${studentInfo._id},
+                                                        await axios.put(https://merndevkitserver.vercel.app/api/updateStudent/\${studentInfo._id},
                                                             formData)
                                                             .then((response) => {
                                                                 setErr("")
@@ -3580,7 +3580,7 @@ const Profile = ({ studentInfo, borrowedBooks, books }) => {
                                                         const formData = { ...books, available: newArr }
 
                                                         //update book list
-                                                        await axios.put(https://merndevkitserver.vercel.app//api/update/\${book._id}, formData)
+                                                        await axios.put(https://merndevkitserver.vercel.app/api/update/\${book._id}, formData)
                                                             .then((response) => {
                                                                 console.log("update book", response.data)
                                                             })
@@ -3593,14 +3593,14 @@ const Profile = ({ studentInfo, borrowedBooks, books }) => {
                                                 //delete borrowed book list of students
                                                 borrowedBooks.map(async (item) => {
                                                     if (item.studentId === localStorage.getItem("studentId")) {
-                                                        await axios.delete(https://merndevkitserver.vercel.app//api/deleteBook/\${item._id})
+                                                        await axios.delete(https://merndevkitserver.vercel.app/api/deleteBook/\${item._id})
                                                             .then((res) => { })
                                                             .catch(err => console.log(err))
                                                     }
                                                 })
 
                                                 //delete student detail
-                                                await axios.delete(https://merndevkitserver.vercel.app//api/deleteStudent/\${studentInfo._id})
+                                                await axios.delete(https://merndevkitserver.vercel.app/api/deleteStudent/\${studentInfo._id})
                                                     .then((res) => {
                                                         navigate("/")
                                                     })
@@ -3803,7 +3803,7 @@ const Sidebar = ({ currentPage, setCurrentPage, borrowedBooks,
                     available: []
                   }
                   //console.log("formdat",formData)
-                  await axios.post("https://merndevkitserver.vercel.app//api/create",
+                  await axios.post("https://merndevkitserver.vercel.app/api/create",
                     formData)
                     .then((response) => {
                       toast.success("successfully updated Profile");

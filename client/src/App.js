@@ -25,7 +25,7 @@ const App = () => {
 
 
   const fetchCuriculumData = async () => {
-    await axios.get("https://merndevkitserver.vercel.app//api/fetch").then((response) => {
+    await axios.get("https://merndevkitserver.vercel.app/api/fetch").then((response) => {
       setCurriculum(response.data)
       console.log("all data", response.data)
     }).catch(error => { console.log("errr", error) })

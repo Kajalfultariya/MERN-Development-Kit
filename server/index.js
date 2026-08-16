@@ -6,11 +6,27 @@ import bodyParser from "body-parser"
 import route from "./routes/userRoute.js"
 
 const app = express()
+
+app.use(
+    cors({
+        origin: [
+            "http://localhost:3000",
+            "https://mern-development-kit.vercel.app",
+        ],
+        methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+        allowedHeaders: ["Content-Type", "Authorization"],
+        credentials: true,
+    })
+);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
-app.use(cors())
 dotenv.config();
-
+app.get("/", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "MERN backend is running",
+  });
+});
 
 const PORT = process.env.PORT || 4000;
 const URL = process.env.MONGOURL;
@@ -23,4 +39,4 @@ mongoose.connect(URL).then(() => {
     })
 }).catch(err => { console.log(err) });
 
-app.use("/api",route)
+app.use("/api", route)

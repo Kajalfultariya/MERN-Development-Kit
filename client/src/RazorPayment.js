@@ -135,7 +135,7 @@ export default function RazorPayment({ payForm, paying, setPaying, setPayForm, C
 
 
                     }
-                        await axios.post("https://merndevkitserver.vercel.app//api/createCustomer", newData)
+                        await axios.post("https://merndevkitserver.vercel.app/api/createCustomer", newData)
                             .then((response) => {
                                 console.log("response api", response)
                             }).catch(error => { console.log("errr", error) })

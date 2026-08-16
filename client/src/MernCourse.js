@@ -42,7 +42,7 @@ export default function MernCourse({ C, CURRICULUM, setCurriculum, projectData, 
     const fetchCustomer = async () => {
         console.log("consle", localStorage.getItem("Id"))
         localStorage.getItem("Id") &&
-            await axios.get(`https://merndevkitserver.vercel.app//api/fetchoneCustomer/${localStorage.getItem("Id")}`).then((response) => {
+            await axios.get(`https://merndevkitserver.vercel.app/api/fetchoneCustomer/${localStorage.getItem("Id")}`).then((response) => {
                 setCustomer(response.data)
                 console.log("all data mern course", response.data)
             }).catch(error => { console.log("errr", error) })

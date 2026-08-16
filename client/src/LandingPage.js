@@ -22,7 +22,7 @@ const LandingPage = ({ C, setPayForm, CURRICULUM }) => {
         if (!contactForm.name || !contactForm.email || !contactForm.message) return;
         // TODO: wire this up to your backend / email service
 
-        await axios.post("https://merndevkitserver.vercel.app//api/createContact", contactForm)
+        await axios.post("https://merndevkitserver.vercel.app/api/createContact", contactForm)
             .then((response) => {
                 console.log("response api", response)
             }).catch(error => { console.log("errr", error) })
