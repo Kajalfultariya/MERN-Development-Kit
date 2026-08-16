@@ -113,7 +113,7 @@ export default function RazorPayment({ payForm, paying, setPaying, setPayForm, C
         // Try actual Razorpay SDK if loaded 
         if (window.Razorpay) {
             const options = {
-                key: "rzp_test_T8g5DoneteLiBx", // ← replace with your key
+                key: "NSkYR7deYkRYwV4DsVFhu57M", 
                 amount: 100 * 100,
                 currency: "INR",
                 name: "MERN Development Kit",
@@ -135,10 +135,10 @@ export default function RazorPayment({ payForm, paying, setPaying, setPayForm, C
 
 
                     }
-                        await axios.post("https://merndevkitserver.vercel.app/api/createCustomer", newData)
-                            .then((response) => {
-                                console.log("response api", response)
-                            }).catch(error => { console.log("errr", error) })
+                    await axios.post("https://merndevkitserver.vercel.app/api/createCustomer", newData)
+                        .then((response) => {
+                            console.log("response api", response)
+                        }).catch(error => { console.log("errr", error) })
 
                     setTxnId(response.razorpay_payment_id || randomTxn());
                     setSuccess(true);
