@@ -656,4 +656,4 @@ function SlideModal({ isOpen, onClose, CURRICULUM }) {
 }
 
 
-export default LandingPage
+export default LandingPage 
