@@ -4,9 +4,8 @@ import userModel from "../model/userModel.js";
 export const create = async (req, res) => {
     try {
 
-        console.log("body apidata", req.body)
         const userData = new userModel(req.body)
-        console.log("body", req.body)
+        // console.log("body", req.body)
         if (!userData) {
             return res.status(404).json({ msg: "User not found" })
         }

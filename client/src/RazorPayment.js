@@ -62,7 +62,7 @@ export default function RazorPayment({ payForm, paying, setPaying, setPayForm, C
     const navigate = useNavigate()
     const [success, setSuccess] = useState(false);
     const [txnId, setTxnId] = useState("");
-
+    const [id, setId] = useState("")
     /* CUSTOMER */
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -114,17 +114,14 @@ export default function RazorPayment({ payForm, paying, setPaying, setPayForm, C
         if (window.Razorpay) {
             const options = {
                 key: "rzp_live_TQWCV2QEQzdUch",
-                amount:  payForm.plan === "pro" ? 501 *100 : 201 *100, 
+                amount: payForm.plan === "pro" ? 501  : 201 ,
                 currency: "INR",
                 name: "MERN Development Kit",
                 description: "Order #ORD-2024-001",
                 prefill: { name: "Kajal Patel", email: "kajlfultariya@gmail.com", contact: 9687606592 },
                 theme: { color: "#3395FF" },
                 handler: async (response) => {
-                    console.log("razor response", response,
-                        response.razorpay_payment_id
-
-                    )
+                   
                     const newData = {
                         "name": name,
                         "email": email,
@@ -138,10 +135,12 @@ export default function RazorPayment({ payForm, paying, setPaying, setPayForm, C
                     await axios.post("https://merndevkitserver.vercel.app/api/createCustomer", newData)
                         .then((response) => {
                             console.log("response api", response)
+                            setId(response.data._id)
+                             setSuccess(true);
                         }).catch(error => { console.log("errr", error) })
 
                     setTxnId(response.razorpay_payment_id || randomTxn());
-                    setSuccess(true);
+                   
                 },
                 //modal: { ondismiss: () => setLoading(false) },
             };
@@ -194,7 +193,9 @@ export default function RazorPayment({ payForm, paying, setPaying, setPayForm, C
                             </div>
                             <button className="btn-done"
                                 onClick={() => {
-                                    navigate("/")
+                                    localStorage.setItem("Id", id)
+                                    navigate("/home")
+
                                     setSuccess(false);
                                     setPassword("")
                                     setName(""); setEmail("");
@@ -326,7 +327,11 @@ export default function RazorPayment({ payForm, paying, setPaying, setPayForm, C
                                                 <div className="field-wrap">
                                                     <span className="field-icon"><Icon d={icons.user} size={15} /></span>
                                                     <input className={`field-input${err.name ? " error" : ""}`}
-                                                        placeholder="Kajal Patel" value={name} onChange={e => { setName(e.target.value); setErr(p => ({ ...p, name: "" })); }} />
+                                                        placeholder="Doe" value={name}
+                                                        onChange={e => {
+                                                            setName(e.target.value);
+                                                            setErr(p => ({ ...p, name: "" }));
+                                                        }} />
                                                 </div>
                                                 {err.name && <span className="field-err">⚠ {err.name}</span>}
                                             </div>
@@ -334,7 +339,8 @@ export default function RazorPayment({ payForm, paying, setPaying, setPayForm, C
                                                 <label className="field-label">Phone</label>
                                                 <div className="field-wrap">
                                                     <span className="field-icon"><Icon d={icons.phone} size={15} /></span>
-                                                    <input className={`field-input${err.phone ? " error" : ""}`} placeholder="9876543210" maxLength={10} value={phone} onChange={e => { setPhone(e.target.value.replace(/\D/, "")); setErr(p => ({ ...p, phone: "" })); }} />
+                                                    <input className={`field-input${err.phone ? " error" : ""}`}
+                                                        placeholder="9876543210" maxLength={10} value={phone} onChange={e => { setPhone(e.target.value.replace(/\D/, "")); setErr(p => ({ ...p, phone: "" })); }} />
                                                 </div>
                                                 {err.phone && <span className="field-err">⚠ {err.phone}</span>}
                                             </div>
@@ -342,7 +348,9 @@ export default function RazorPayment({ payForm, paying, setPaying, setPayForm, C
                                                 <label className="field-label">Email</label>
                                                 <div className="field-wrap">
                                                     <span className="field-icon"><Icon d={icons.mail} size={15} /></span>
-                                                    <input className={`field-input${err.email ? " error" : ""}`} type="email" placeholder="you@email.com" value={email} onChange={e => { setEmail(e.target.value); setErr(p => ({ ...p, email: "" })); }} />
+                                                    <input className={`field-input${err.email ? " error" : ""}`}
+                                                        type="email" placeholder="you@email.com" value={email}
+                                                        onChange={e => { setEmail(e.target.value); setErr(p => ({ ...p, email: "" })); }} />
                                                 </div>
                                                 {err.email && <span className="field-err">⚠ {err.email}</span>}
                                             </div>
