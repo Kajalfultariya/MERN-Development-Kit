@@ -118,7 +118,8 @@ export default function RazorPayment({ payForm, paying, setPaying, setPayForm, C
                 currency: "INR",
                 name: "MERN Development Kit",
                 description: "Order #ORD-2024-001",
-                prefill: { name: "Kajal Patel", email: "kajlfultariya@gmail.com", contact: 9687606592 },
+               // prefill: { name: "Kajal Patel", email: "kajlfultariya@gmail.com", contact: 9687606592 },
+               prefill:{},
                 theme: { color: "#3395FF" },
                 handler: async (response) => {
 
