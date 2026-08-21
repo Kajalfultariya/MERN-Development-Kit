@@ -118,8 +118,26 @@ export default function RazorPayment({ payForm, paying, setPaying, setPayForm, C
                 currency: "INR",
                 name: "MERN Development Kit",
                 description: "Order #ORD-2024-001",
-               // prefill: { name: "Kajal Patel", email: "kajlfultariya@gmail.com", contact: 9687606592 },
-               prefill:{},
+                
+                prefill: {},
+                config: {
+                    display: {
+                        blocks: {
+                            upi: {
+                                name: "Pay via UPI",
+                                instruments: [
+                                    {
+                                        method: "upi"
+                                    }
+                                ]
+                            }
+                        },
+                        sequence: ["block.upi"],
+                        preferences: {
+                            show_default_blocks: false
+                        }
+                    }
+                },
                 theme: { color: "#3395FF" },
                 handler: async (response) => {
 
