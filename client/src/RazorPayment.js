@@ -114,14 +114,14 @@ export default function RazorPayment({ payForm, paying, setPaying, setPayForm, C
         if (window.Razorpay) {
             const options = {
                 key: "rzp_live_TQWCV2QEQzdUch",
-                amount: payForm.plan === "pro" ? 501  : 201 ,
+                amount: payForm.plan === "pro" ? 501 * 100 : 201 * 100,
                 currency: "INR",
                 name: "MERN Development Kit",
                 description: "Order #ORD-2024-001",
                 prefill: { name: "Kajal Patel", email: "kajlfultariya@gmail.com", contact: 9687606592 },
                 theme: { color: "#3395FF" },
                 handler: async (response) => {
-                   
+
                     const newData = {
                         "name": name,
                         "email": email,
@@ -136,11 +136,11 @@ export default function RazorPayment({ payForm, paying, setPaying, setPayForm, C
                         .then((response) => {
                             console.log("response api", response)
                             setId(response.data._id)
-                             setSuccess(true);
+                            setSuccess(true);
                         }).catch(error => { console.log("errr", error) })
 
                     setTxnId(response.razorpay_payment_id || randomTxn());
-                   
+
                 },
                 //modal: { ondismiss: () => setLoading(false) },
             };
