@@ -73,7 +73,7 @@ const Payment = ({ handlePay, payForm, payDone, paying, setPayForm, setPage, C }
                                 ))}
                             <div style={{ display: "flex", justifyContent: "space-between", marginTop: 20, paddingTop: 16, borderTop: `1px solid ${C.border}` }}>
                                 <span style={{ fontSize: 14, color: C.sub }}>Total</span>
-                                <span style={{ fontSize: 22, fontWeight: 900, color: "#818CF8" }}>{payForm.plan === "pro" ? "501" : "₹201"}</span>
+                                <span style={{ fontSize: 22, fontWeight: 900, color: "#818CF8" }}>{payForm.plan === "pro" ? "₹201" : "₹101"}</span>
                             </div>
                         </div>
 
@@ -109,7 +109,7 @@ const Payment = ({ handlePay, payForm, payDone, paying, setPayForm, setPage, C }
                                         borderTopColor: "#fff", borderRadius: "50%", display: "inline-block",
                                         animation: "spin .7s linear infinite"
                                     }} />
-                                        Processing...</> : `Pay ${payForm.plan === "pro" ? "₹501" : "₹201"} →`}
+                                        Processing...</> : `Pay ${payForm.plan === "pro" ? "₹201" : "₹101"} →`}
                                 </button>
                                 <div style={{ textAlign: "center", marginTop: 12, fontSize: 12, color: C.muted }}>🔒 256-bit SSL encryption · Secure payment</div>
                             </form>

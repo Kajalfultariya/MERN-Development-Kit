@@ -125,7 +125,7 @@ const Sidebar = ({ C, activeLesson, curriculum, customer, projectData, setProjec
                     </div>
                 ))}
             </div>
-            {customer.amount && customer.amount === 501 &&
+            {customer.amount && customer.amount === 201 &&
                 <div style={{
                     padding: "16px 16px 2px 12px", borderBottom: `2px solid ${C.border}`,
                     flexShrink: 0

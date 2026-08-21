@@ -294,12 +294,12 @@ const LandingPage = ({ C, setPayForm, CURRICULUM }) => {
                     <div className="pricing-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 20, maxWidth: 780, margin: "0 auto" }}>
                         {[
                             {
-                                name: "Basic", price: "₹201", color: "#06B6D4",
+                                name: "Basic", price: "₹101", color: "#06B6D4",
                                 features: ["Full 6-week curriculum", "35+  lessons", "Code labs & files", "Community Discord"],
                                 cta: "Enroll — Basic", plan: "basic"
                             },
                             {
-                                name: "Pro ⭐", price: "501", color: "#6366F1",
+                                name: "Pro ⭐", price: "₹201", color: "#6366F1",
                                 features: ["Everything in Basic", "3 guided projects", "Module quizzes",
                                     "Lifetime updates", "Priority Q&A support"],
                                 cta: "Enroll — Pro", plan: "pro", popular: true
