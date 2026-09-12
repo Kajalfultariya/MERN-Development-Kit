@@ -114,11 +114,11 @@ export default function RazorPayment({ payForm, paying, setPaying, setPayForm, C
         if (window.Razorpay) {
             const options = {
                 key: "rzp_live_TQWCV2QEQzdUch",
-                amount: payForm.plan === "pro" ? 201 * 100 : 101 * 100,
+                amount: payForm.plan === "pro" ? 101 * 100 : 51 * 100,
                 currency: "INR",
                 name: "MERN Development Kit",
                 description: "Order #ORD-2024-001",
-                
+
                 prefill: {},
                 config: {
                     display: {
@@ -145,7 +145,7 @@ export default function RazorPayment({ payForm, paying, setPaying, setPayForm, C
                         "name": name,
                         "email": email,
                         "phone": phone,
-                        "amount": payForm.plan === "pro" ? 201 : 101,
+                        "amount": payForm.plan === "pro" ? 101 : 51,
                         "password": password,
                         "txnId": response.razorpay_payment_id || randomTxn(),
 
@@ -190,7 +190,7 @@ export default function RazorPayment({ payForm, paying, setPaying, setPayForm, C
                             </div>
                             <h2 className="success-title">Payment Successful! 🎉</h2>
                             <p className="success-msg">
-                                Your payment of <strong>₹{payForm.plan === "pro" ? 201 : 101}</strong> has been received.<br />
+                                Your payment of <strong>₹{payForm.plan === "pro" ? 201 : 51}</strong> has been received.<br />
                                 A confirmation has been sent to <strong>{email}</strong>
                             </p>
                             <div className="success-txn">TXN ID: {txnId}</div>
@@ -198,7 +198,7 @@ export default function RazorPayment({ payForm, paying, setPaying, setPayForm, C
                                 <div className="detail-box">
                                     <div className="detail-label">Amount Paid</div>
                                     <div className="detail-val">₹
-                                        {payForm.plan === "pro" ? 201 : 101}
+                                        {payForm.plan === "pro" ? 201 : 51}
                                     </div>
                                 </div>
                                 <div className="detail-box">
@@ -315,8 +315,8 @@ export default function RazorPayment({ payForm, paying, setPaying, setPayForm, C
                                             ))}
                                         <div style={{ display: "flex", justifyContent: "space-between", marginTop: 20, paddingTop: 16, borderTop: `1px solid ${C.border}` }}>
                                             <span style={{ fontSize: 14, color: C.sub }}>Total</span>
-                                            <span style={{ fontSize: 22, fontWeight: 900, color: "#101d92" }}>
-                                                {payForm.plan === "pro" ? "₹201" : "₹101"}</span>
+                                            <span style={{ fontSize: 22, fontWeight: 900, color: "#51d92" }}>
+                                                {payForm.plan === "pro" ? "₹101" : "₹51"}</span>
                                         </div>
                                         <div className="secure-note">
                                             <Icon d={icons.shield} size={13} stroke="#94a3b8" />
@@ -419,7 +419,7 @@ export default function RazorPayment({ payForm, paying, setPaying, setPayForm, C
                                                 borderTopColor: "#fff", borderRadius: "50%", display: "inline-block",
                                                 animation: "spin .7s linear infinite"
                                             }} />
-                                                Processing...</> : `Pay ${payForm.plan === "pro" ? "₹201" : "₹101"} →`}
+                                                Processing...</> : `Pay ${payForm.plan === "pro" ? "₹101" : "₹51"} →`}
                                         </button>
                                     </div>
                                 </div>
